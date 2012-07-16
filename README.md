@@ -10,12 +10,15 @@ How to install Facetly Plugin in wordpress
 1. Before Installing Facetly Plugin, make sure you already have these requirements:
 
     a. Any FTP program, such as WinSCP, FileZilla, etc.
+    
     b. Activated Ubercart Plugin.
 
 2. Facetly Plugin can be installed in three ways:
 
     a. Download Facetly Plugin from github (https://github.com/facetly/facetly_wordpress) and upload it to your plugins folder using FTP program
+    
     b. Download Facetly Plugin from github (https://github.com/facetly/facetly_wordpress) and upload it directly from your Wordpress
+    
     c. Search Facetly from your Wordpress plugin
 
 3. After Facetly Plugin successfully installed in your Wordpress, you will find Facetly Settings in your admin menu and contain submenus: Facetly Settings, Fields, Reindex, and Template
