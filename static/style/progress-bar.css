@@ -1,0 +1,15 @@
+
+#progress-outer {
+    background: #333;
+    -webkit-border-radius: 13px;
+    height: 20px;
+    width: 300px;
+    padding: 3px;
+}
+
+#progress-inner {
+    background: orange;
+    width: 50%;
+    height: 100%;
+    -webkit-border-radius: 9px;
+} 
