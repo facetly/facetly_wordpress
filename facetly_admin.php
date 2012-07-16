@@ -2,14 +2,12 @@
 	function facetly_admin(){
 
 		if($_POST['facetly_settings_hidden'] == 'Y') {  
-			//Form data sent  
 			$key = $_POST['facetly_key'];  
 			$secret = $_POST['facetly_secret'];  
 			$server = $_POST['facetly_server']; 
 			$limit = $_POST['facetly_limit'];
 			$add_variable = $_POST['facetly_add_variable']; 
-			//print_r($_POST);
-
+			
 			$settings = array(
 				'key' => $key,
 				'secret' => $secret,
@@ -23,9 +21,7 @@
 			<div class="updated"><p><strong><?php _e('Options saved.' ); ?></strong></p></div>  
 			<?php  
 		} else {  
-			//Normal page display  
 			$common = get_option('facetly_settings');
-			//print_r($common);
 			$key = $common['key'];
 			$secret = $common['secret'];
 			$server = $common['server'];
@@ -34,36 +30,18 @@
 		}
 
 		if($_POST['facetly_copy_hidden'] == 'Y') {
-			//$current_permission = substr(sprintf('%o', fileperms(TEMPLATEPATH)), -4);
-			//chmod(TEMPLATEPATH, 0777);
 			if ( is_writable(TEMPLATEPATH) ) {
 				$zipfilename = "searchform.php";
 				$zipsource = TEMPLATEPATH. "/searchform.php";
 				$zipdest = TEMPLATEPATH. "/";
 				$backup = zipfile($zipfilename, $zipsource, $zipdest);
-				//unlink(TEMPLATEPATH. "/searchform.php");
+				unlink(TEMPLATEPATH. "/searchform.php");
 				
 
 				$unzipsource = WP_PLUGIN_DIR. "/facetly/facetly-search-template.zip";
 				$unzipdest = TEMPLATEPATH. "/";  //folder directory must be ended with "/", example: c:/xampp/htdocs/wordpress/
 				$unzip1 = unzipfile($unzipsource, $unzipdest);
 
-				/*$unzipsource2 = WP_PLUGIN_DIR. "/facetly/searchform.zip";
-				$unzupdest2 = TEMPLATEPATH. "/";  //folder directory must be ended with "/", example: c:/xampp/htdocs/wordpress/
-				$unzip2 = unzipfile($unzipsource2, $unzupdest2);*/
-
-				/*$source_searchform_def = TEMPLATEPATH. "/searchform.php";
-				$dest_searchform_def = TEMPLATEPATH. "/searchform_def_backup.php";
-				$copy_searchform_def = copy($source_searchform_def, $dest_searchform_def);
-				
-				$source_searchtpl = WP_PLUGIN_URL. "/facetly/facetly-search-template.php";
-				$dest_searchtpl = TEMPLATEPATH. "/facetly-search-template.php";
-
-				$source_searchform = WP_PLUGIN_URL. "/facetly/searchform.php";
-				$dest_searchform = TEMPLATEPATH. "/searchform.php";
-
-				$copy_searchtpl = copy($source_searchtpl, $dest_searchtpl);
-				$copy_searchform = copy($source_searchform, $dest_searchform);*/
 				if ( $backup && $unzip1 && $unzip2 ) {
 					echo "<h4>" . __( 'Files Copy Success' ) . "</h4>";
 				} else {
@@ -72,7 +50,6 @@
 			} else {
 				echo "<h4>" . __( 'Theme Folder is Not Writable' ) . "</h4>";
 			}
-			//chmod(TEMPLATEPATH, $current_permission);
 		}
 	?> 
 

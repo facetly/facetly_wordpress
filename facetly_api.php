@@ -23,8 +23,6 @@ class Facetly {
 			"tplfacet" => $tplfacet,
 			"tplpage" => $tplpage,
 		);
-		//print_r($data);
-		//exit();
 		$path = "template/update";
 		return $this->call($path, $data, 'POST');
  	}
@@ -115,7 +113,6 @@ class Facetly {
  		$secret = $this->secret;
 		$data = array(
 			"key" => $key,
-			//"secret" => $secret,
 			"query" => $query,
 		);
 		
