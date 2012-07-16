@@ -4,6 +4,7 @@ facetly_wordpress
 Facetly Wordpress Plugin
 
 Install Facetly Plugin
+
 How to install Facetly Plugin in wordpress
 
 1. Before Installing Facetly Plugin, make sure you already have these requirements:
