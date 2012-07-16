@@ -9,7 +9,7 @@
 	*/
 
 	//
-	include('facetly.lib.php');
+	include('facetly_api.php');
 	include('facetly_conn.php');
 
 	include('facetly_reindex.php');
