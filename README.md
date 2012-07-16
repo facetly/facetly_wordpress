@@ -38,5 +38,4 @@ The next step is set up Facetly Plugin for your store.
 
 5. The final step is setting template for your search page. Go to Template sub menu and you will see search template and facet template. You can find more details about Template in http://www.facetly.com
 
-6. Then you can find product with your search textbox to use this plugin
 
