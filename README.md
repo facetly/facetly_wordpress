@@ -36,6 +36,6 @@ The next step is set up Facetly Plugin for your store.
 4. Next step is go to Reindex sub menu. This sub menu is used to save all your product data to our server, which will used as your search data. Click Start Reindex to start the process.
     Please note: you should wait until process is complete and not move to other page, otherwise your data reindex will not completed and you must start from the beginning.
 
-5. The final step is setting template for your search page. Go to Template sub menu and you will see search template and facet template. You can find more details about Template in http://www.facetly.com
+5. The final step is setting template for your search page. Go to Template sub menu and you will see search template and facet template. You can find more details about Template in https://www.facetly.com/doc/template
 
 
