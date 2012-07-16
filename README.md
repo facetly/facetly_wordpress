@@ -6,6 +6,7 @@ Facetly Wordpress Plugin
 Install Facetly Plugin
 
 How to install Facetly Plugin in wordpress
+
 1. Before Installing Facetly Plugin, make sure you already have these
     requirements:
 
@@ -23,9 +24,7 @@ b. Download Facetly Plugin from github (https://github.com/facetly/facetly_wordp
 
 c. Search Facetly from your Wordpress plugin
 
-3. After Facetly Plugin successfully installed in your Wordpress, you will find Facetly
-    Settings in your admin menu and contain submenus: Facetly Settings, Fields,
-    Reindex, and Template
+3. After Facetly Plugin successfully installed in your Wordpress, you will find Facetly Settings in your admin menu and contain submenus: Facetly Settings, Fields, Reindex, and Template
 
 Configure Facetly Plugin
 
