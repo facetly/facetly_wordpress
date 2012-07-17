@@ -79,7 +79,7 @@
 			    "server" : "'. $server. '",
 			    "file" : "",
 			    "limit": '. $limit. ',
-			    "baseurl" : "/wp/facetly-search",
+			    "baseurl" : "'. get_bloginfo('wpurl').'/facetly-search'. '",
 			}
 		</script>';
 	}
