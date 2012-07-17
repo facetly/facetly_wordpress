@@ -1,13 +1,5 @@
 <?php
 	global $percentage;
-	function change_percentage($percentage, $id){
-        	global $percentage;
-            //Only apply to post (bar) ID 31, if it isn't 31, just return
-            if ($id != 31) return $percentage;
-
-            $newpercentage = $percentage; // add 10% for effort.
-            return $newpercentage;
-        }
 
 	function facetly_reindex(){
 		include('facetly_conn.php');
@@ -25,16 +17,11 @@
 			$query_product .= "GROUP BY mt.post_id ";
 			$query_product .= "ORDER BY pt.post_title ";
 			if( empty($total_all) ) {
-				//print_r($query_product);
 				$query = $wpdb->query($query_product);
 				$total_all = $wpdb->num_rows;
-				
-				//echo "static";
 			}
 			$counter = $_GET['counter'];
 			$next = $counter+1;
-			//echo '<br/> total_all'. $total_all;
-			//echo '<br/> next'. $next;
 			
 			$start = $counter*$limit;
 			if ($counter == 0 ) {
@@ -62,18 +49,14 @@
 					$percentage = 100;
 					$completed = true;
 			}
-			//if (  ) {
-				
-				echo '<meta http-equiv="refresh" content="2;admin.php?page=facetly-settings-reindex'. $header. '"/>';
-				echo '<meta http-equiv="cache-control" content="NO-CACHE"/>';
-				echo "<h2>" . __( 'Reindexing All WP e-Commerce Data' ) . "</h2>";
-				echo "<h4>" . __( 'Please Wait Until Finish' ) . "</h4>";
-				//echo $percentage;
-				echo '
-				<div id="progress-outer">
-				    <div id="progress-inner"></div>
-				</div>​';
-		//	} 
+			echo '<meta http-equiv="refresh" content="2;admin.php?page=facetly-settings-reindex'. $header. '"/>';
+			echo '<meta http-equiv="cache-control" content="NO-CACHE"/>';
+			echo "<h2>" . __( 'Reindexing All WP e-Commerce Data' ) . "</h2>";
+			echo "<h4>" . __( 'Please Wait Until Finish' ) . "</h4>";
+			echo '
+			<div id="progress-outer">
+			    <div id="progress-inner"></div>
+			</div>​';
 		}
 		if (!isset($_GET['reindex']) || $_GET['reindex'] == "n" ) {
 			if ( $_GET['reindex'] == "n" ) {
@@ -83,9 +66,7 @@
 			$get['counter'] = 0;
 			$get['reindex'] = 'y';
 			
-			$url_query = http_build_query($get,'','&'); 
-			//print_r($url_query);
-			
+			$url_query = http_build_query($get,'','&'); 		
 			?>
 
 			<div class="wrap">

@@ -3,12 +3,11 @@
 	Plugin Name: Facetly
 	Version: 0.1
 	Description: Facetly Search Plugin.
-	Author: Andrew Junior
-	Author URI: http://pionize.wordpress.com
-	Plugin URI: http://pionize.wordpress.com
+	Author: Facetly
+	Author URI: http://www.facetly.com
+	Plugin URI: http://www.facetly.com
 	*/
 
-	//
 	include('facetly_api.php');
 	include('facetly_conn.php');
 
