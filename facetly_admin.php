@@ -31,12 +31,13 @@
 
 		if($_POST['facetly_copy_hidden'] == 'Y') {
 			if ( is_writable(TEMPLATEPATH) ) {
-				$zipfilename = "searchform.php";
-				$zipsource = TEMPLATEPATH. "/searchform.php";
-				$zipdest = TEMPLATEPATH. "/";
-				$backup = zipfile($zipfilename, $zipsource, $zipdest);
-				unlink(TEMPLATEPATH. "/searchform.php");
-				
+				if( file_exists(TEMPLATEPATH."/searchform.php") ) {
+					$zipfilename = "searchform.php";
+					$zipsource = TEMPLATEPATH. "/searchform.php";
+					$zipdest = TEMPLATEPATH. "/";
+					$backup = zipfile($zipfilename, $zipsource, $zipdest);
+					unlink(TEMPLATEPATH. "/searchform.php");
+				}
 
 				$unzipsource = WP_PLUGIN_DIR. "/facetly/facetly-search-template.zip";
 				$unzipdest = TEMPLATEPATH. "/";  //folder directory must be ended with "/", example: c:/xampp/htdocs/wordpress/
