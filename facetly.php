@@ -24,14 +24,12 @@
 		static $var;
 		if (empty($var)) {
 			try {
-			$searchtype = "html";
-			$query = $_GET['query'];
-			$filter = $_GET;
-			$common = get_option('facetly_settings');
-			$limit = $common['limit'];
-			$filter['limit'] = $limit;
-			print "$limit";
-			print "ljasojoasd";
+				$searchtype = "html";
+				$query = $_GET['query'];
+				$filter = $_GET;
+				$common = get_option('facetly_settings');
+				$limit = $common['limit'];
+				$filter['limit'] = $limit;
 				$var = $facetly->searchProduct($query, $filter, $searchtype);			
 			} catch (Exception $e) {
 				$var = new StdClass();
