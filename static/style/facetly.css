@@ -7,6 +7,9 @@
   height:150px;
 }
 
+#facetly_result table {
+  width:100%;
+}
 #facetly_result table, tr, td {
   padding-right: 50px;
   padding-bottom: 20px;

@@ -13,7 +13,9 @@
 
 		$custom_fields = $wpdb->get_results($wpdb->prepare("SELECT meta_key, meta_value, post_id FROM $wpdb->postmeta JOIN $wpdb->posts ON post_id = ID WHERE post_type = 'wpsc-product' GROUP BY meta_key"));
 		foreach( $custom_fields as $custom_value ) {
-			if ( @unserialize( $custom_value->meta_value ) === true ) continue;
+				//print "<br/>". $custom_value->meta_key. "<br/>";
+			//	print_r(@unserialize( $custom_value->meta_value ));
+			if ( @unserialize( $custom_value->meta_value	 ) === true ) continue;
 			if ( strpos( $custom_value->meta_key, "hide_on_screen" ) || strpos( $custom_value->meta_key, "layout" ) || strpos($custom_value->meta_key, "meta" ) || strpos( $custom_value->meta_key, "position" ) ) {
 					continue;
 				}
@@ -25,17 +27,22 @@
 		$defined_fields = array();
 		try {
 				$fields_data = $facetly->fieldSelect();	
-		} catch (Exception $e) {
+			} catch (Exception $e) {
+				//var->results = $e->getMessage();
 				echo '<div class="error"><p><strong>'. $e->getMessage(). '</strong></p></div>';
-		}
+				//echo $e->getMessage();
+			}
 		foreach( $fields_data->field as $fields_value ) {
 			if ( $fields_value->name == 'url' || $fields_value->name == 'imageurl' || $fields_value->name == 'category' ) continue;
 			$defined_fields[] = $fields_value->name;
 		}
 		sort($defined_fields);
+		//$default_fields = array('post_date_gmt', 'guid', 'post_content', 'post_title');
 		$save_field = array();
 		
 		if($_POST['facetly_fields_hidden'] == 'Y') {  
+			//Form data sent 
+			//print_r($defined_fields);
 			foreach( $defined_fields as $defined_value ) {
 				$save_field[$defined_value] = $_POST[$defined_value];
 			}
@@ -44,6 +51,7 @@
 			<div class="updated"><p><strong><?php _e('Options saved.' ); ?></strong></p></div>  
 			<?php  
 		} else {  
+			//Normal page display  
 			$facetly_fields = get_option('facetly_fields');
 			if ( !empty($facetly_fields) ) {
 				foreach( $facetly_fields as $facetly_key => $facetly_value ) {

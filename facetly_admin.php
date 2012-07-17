@@ -2,15 +2,15 @@
 	function facetly_admin(){
 
 		if($_POST['facetly_settings_hidden'] == 'Y') {  
-			$key = $_POST['facetly_key'];  
-			$secret = $_POST['facetly_secret'];  
+			$consumer_key = $_POST['facetly_key'];  
+			$consumer_secret = $_POST['facetly_secret'];  
 			$server = $_POST['facetly_server']; 
 			$limit = $_POST['facetly_limit'];
 			$add_variable = $_POST['facetly_add_variable']; 
 			
 			$settings = array(
-				'key' => $key,
-				'secret' => $secret,
+				'key' => $consumer_key,
+				'secret' => $consumer_secret,
 				'server' => $server,
 				'limit' => $limit,
 				'add_variable' => $add_variable,
@@ -22,8 +22,8 @@
 			<?php  
 		} else {  
 			$common = get_option('facetly_settings');
-			$key = $common['key'];
-			$secret = $common['secret'];
+			$consumer_key = $common['key'];
+			$consumer_secret = $common['secret'];
 			$server = $common['server'];
 			$limit = $common['limit'];
 			$add_variable = $common['add_variable'];
@@ -43,7 +43,7 @@
 				$unzipdest = TEMPLATEPATH. "/";  //folder directory must be ended with "/", example: c:/xampp/htdocs/wordpress/
 				$unzip1 = unzipfile($unzipsource, $unzipdest);
 
-				if ( $backup && $unzip1 && $unzip2 ) {
+				if ( $backup && $unzip1 ) {
 					echo "<h4>" . __( 'Files Copy Success' ) . "</h4>";
 				} else {
 					echo "<h4>" . __( 'Files Copy Not Success' ) . "</h4>";
@@ -63,12 +63,12 @@
 				<tr>
 					<td><?php _e("Consumer Key"); ?></td>
 					<td><?php _e(":");?></td>
-					<td><input type="text" name="facetly_key" value="<?php echo $key; ?>" size="50"><?php _e(" ex: qhduafdh" ); ?></td>
+					<td><input type="text" name="facetly_key" value="<?php echo $consumer_key; ?>" size="50"><?php _e(" ex: qhduafdh" ); ?></td>
 				</tr>
 				<tr>
 					<td><?php _e("Consumer Secret"); ?></td>
 					<td><?php _e(":");?></td>
-					<td><input type="text" name="facetly_secret" value="<?php echo $secret; ?>" size="50"><?php _e(" ex: q5yvmddqntukobeoszi6zuqmwvy9wwsv" ); ?></td>
+					<td><input type="text" name="facetly_secret" value="<?php echo $consumer_secret; ?>" size="50"><?php _e(" ex: q5yvmddqntukobeoszi6zuqmwvy9wwsv" ); ?></td>
 				</tr>
 				<tr>
 					<td><?php _e("Server Name" ); ?></td>

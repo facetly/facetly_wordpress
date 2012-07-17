@@ -23,18 +23,20 @@
 		include("facetly_conn.php");
 		static $var;
 		if (empty($var)) {
+			try {
 			$searchtype = "html";
 			$query = $_GET['query'];
 			$filter = $_GET;
 			$common = get_option('facetly_settings');
 			$limit = $common['limit'];
 			$filter['limit'] = $limit;
-			try {
+			print "$limit";
+			print "ljasojoasd";
 				$var = $facetly->searchProduct($query, $filter, $searchtype);			
 			} catch (Exception $e) {
 				$var = new StdClass();
 				$var->results = $e->getMessage();
-				echo '<div class="error"><p><strong>'. $var. '</strong></p></div>';
+				echo '<div class="error"><p><strong>'. $var->results. '</strong></p></div>';
 			}
 		}
 		return $var;
@@ -70,13 +72,15 @@
 		$key = $common['key'];
 		$secret = $common['secret'];
 		$server = $common['server'];
-
+		$limit = $common['limit'];
+		
 		echo '
 		<script type="text/javascript">
 			var facetly = {
 			    "key" : "'. $key. '",
 			    "server" : "'. $server. '",
 			    "file" : "",
+			    "limit": '. $limit. ',
 			    "baseurl" : "/wp/facetly-search",
 			}
 		</script>';

@@ -24,8 +24,6 @@
 
 	function unzipfile($pathsource, $pathdestination){
 		$pathsource = str_replace("\\", "/", $pathsource);
-		print_r($pathsource);
-		print "<br/>";
 		$pathdestination = str_replace("\\", "/", $pathdestination);
 
 		$zip = zip_open($pathsource);
@@ -88,12 +86,20 @@
 		}
 
 		while (!empty($terms_childs)) {
+			$i++;
+			if ($i > 20) {
+				break;
+			}
 			foreach ($terms_childs as $key => $value) {
 				if (empty($terms_parents[$key])) {
 					$new_terms[$key][] = $value->name;
 					$parent = $value->parent;
 					$new_child = $key;
 					while ($parent != 0) {
+						$j++;
+						if ($j > 20) {
+							exit();
+						}
 						foreach ($terms_parents as $key2 => $value2) {
 							if (!empty($value2[$new_child])) {
 								$new_terms[$key][] = $terms_childs[$key2]->name;
@@ -104,12 +110,14 @@
 								$new_child = $key2;
 								if ($parent==0) {
 									break;
+
 								}
 							}
 						}
 					}
 					unset($terms_childs[$key]);
 				}
+
 			}
 		}
 		if (!empty($new_terms)) {
