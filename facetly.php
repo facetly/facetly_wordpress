@@ -3,11 +3,12 @@
 	Plugin Name: Facetly
 	Version: 0.1
 	Description: Facetly Search Plugin.
-	Author: Facetly
-	Author URI: http://www.facetly.com
-	Plugin URI: http://www.facetly.com
+	Author: Andrew Junior
+	Author URI: http://pionize.wordpress.com
+	Plugin URI: http://pionize.wordpress.com
 	*/
 
+	//
 	include('facetly_api.php');
 	include('facetly_conn.php');
 
@@ -26,6 +27,7 @@
 				$searchtype = "html";
 				$query = $_GET['query'];
 				$filter = $_GET;
+				unset($filter['q']);
 				$common = get_option('facetly_settings');
 				$limit = $common['limit'];
 				$filter['limit'] = $limit;
@@ -51,6 +53,8 @@
 		wp_enqueue_style('facetly-search-style');
 		wp_register_style('facetly-search-progress-bar', plugins_url('static/style/progress-bar.css', __FILE__));
 		wp_enqueue_style('facetly-search-progress-bar');
+		wp_register_style('facetly-jquery-dynatree-style', plugins_url('static/style/ui.dynatree.css', __FILE__));
+		wp_enqueue_style('facetly-jquery-dynatree-style');
 	};
 	add_action ( 'wp_head', 'style');
 
@@ -61,6 +65,12 @@
 		wp_enqueue_script('facetly-search-jquery-autocomplete-js');
 		wp_register_script('facetly-search-facetly-js', plugins_url('static/js/facetly.js', __FILE__));
 		wp_enqueue_script('facetly-search-facetly-js');
+		wp_register_script('facetly-jquery-ui-custom-js', plugins_url('static/js/jquery-ui.custom.js', __FILE__));
+		wp_enqueue_script('facetly-jquery-ui-custom-js');
+		wp_register_script('facetly-jquery-dynatree-js', plugins_url('static/js/jquery.dynatree.js', __FILE__));
+		wp_enqueue_script('facetly-jquery-dynatree-js');
+		wp_register_script('facetly-jquery-dynatree-init-js', plugins_url('static/js/jquery.dynatree.init.js', __FILE__));
+		wp_enqueue_script('facetly-jquery-dynatree-init-js');
 	};
 	add_action ( 'wp_head', 'js');
 
@@ -76,10 +86,10 @@
 			var facetly = {
 			    "key" : "'. $key. '",
 			    "server" : "'. $server. '",
-			    "file" : "",
-			    "limit": '. $limit. ',
-			    "baseurl" : "'. get_bloginfo('wpurl'). '/facetly-search",
+			    "file" : "finds",
+			    "baseurl" : "/",
 			}
+			
 		</script>';
 	}
 	add_action('wp_head', 'add_js_connection');
@@ -95,7 +105,7 @@
 		}
 	}
 	function my_template() {
-		if (strstr($_SERVER['REQUEST_URI'],'/facetly-search')) {
+		if (strstr($_SERVER['REQUEST_URI'],'/finds')) {
 			include_wordpress_template(TEMPLATEPATH . '/facetly-search-template.php');
 		}
 	}

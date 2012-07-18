@@ -7,7 +7,7 @@
 	$server = $common['server'];
 	$facetly->setConsumer($consumer_key, $consumer_secret); 
 	$facetly->setServer($server);
-	$facetly->setBaseUrl(get_bloginfo('wpurl')."/facetly-search");
+	$facetly->setBaseUrl("/finds");
 
 
 

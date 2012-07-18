@@ -91,7 +91,7 @@ jQuery(document).ready(function() {
     
     //console.log(Drupal.settings.facetly_state);
     //alert(Drupal.settings.facetly_baseurl);
-    var baseurlfile=facetly.baseurl+"/"+facetly.file;
+    var baseurlfile=facetly.baseurl+""+facetly.file;
     console.log(baseurlfile);
     if (jQuery('.pager a[href*="'+baseurlfile+'"], #facetly_facet a[href*="'+baseurlfile+'"]')) {
     jQuery.address.state(facetly.baseurl).init(function() {
