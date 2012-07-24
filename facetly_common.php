@@ -73,10 +73,43 @@
 		return $imageurl;
 	}
 
+	function facetly_api_init() {
+	    static $facetly;
+
+	    if ( empty( $facetly ) ) {
+	        require_once("facetly_api.php");
+
+	        $facetly = new facetly_api();
+	        $common = get_option('facetly_settings');
+			$consumer_key = $common['key'];
+			$consumer_secret = $common['secret'];
+			$server = $common['server'];
+			$facetly->setConsumer($consumer_key, $consumer_secret); 
+			$facetly->setServer($server);
+			$facetly->setBaseUrl("/finds");
+	    }
+	    return $facetly;
+	}
+
+	function custom_get_child($parent_id, $terms_childs, $tax) {
+		foreach ($terms_childs as $key => $value) {
+			if($value->parent == $parent_id) {
+				$parent_id = $value->term_id;
+				$name = $value->name;
+				$tax[] = $name;
+				unset($terms_childs[$parent_id]);
+				$taxo = custom_get_child($parent_id, $terms_childs, $tax);
+				
+				return $taxo;
+			}
+		}
+		return $tax;
+	}
+
 	function custom_taxonomies_terms_links($post_id) {
 		//generate only taxonomy related to post
 		$terms = wp_get_object_terms( $post_id, 'wpsc_product_category', array('orderby' => 'parent', 'order' => 'DESC', 'fields' => 'all') );
-		
+
 		foreach ($terms as $key => $value) {
 			$terms_childs[$value->term_id] = $value;
 		}
@@ -85,44 +118,24 @@
 			$terms_parents[$value->parent][$value->term_id] = $value;
 		}
 
-		while (!empty($terms_childs)) {
-			$i++;
-			if ($i > 20) {
-				break;
-			}
-			foreach ($terms_childs as $key => $value) {
-				if (empty($terms_parents[$key])) {
-					$new_terms[$key][] = $value->name;
-					$parent = $value->parent;
-					$new_child = $key;
-					while ($parent != 0) {
-						$j++;
-						if ($j > 20) {
-							exit();
-						}
-						foreach ($terms_parents as $key2 => $value2) {
-							if (!empty($value2[$new_child])) {
-								$new_terms[$key][] = $terms_childs[$key2]->name;
-								$parent = $terms_childs[$key2]->parent;
-								if (empty($terms_parents[$key2])) {
-									unset($terms_childs[$key2]);
-								}
-								$new_child = $key2;
-								if ($parent==0) {
-									break;
-
-								}
-							}
-						}
-					}
-					unset($terms_childs[$key]);
-				}
-
-			}
+		$parents = $terms_parents[0];
+		foreach ($parents as $key => $value) {
+			$parent_id = $value->term_id;
+			unset($terms_childs[$parent_id]);
 		}
-		if (!empty($new_terms)) {
-			foreach ($new_terms as $key => $value) {
-				krsort($value);
+		//print_r($terms_childs);
+		foreach ($parents as $key => $value) {
+			$parent_id = $value->term_id;
+			$name = $value->name;
+			$tax = array();
+			$tax[] = $name;
+			unset($terms_childs[$parent_id]);
+
+			$taxonomy[] = custom_get_child($parent_id, $terms_childs, $tax);
+		}
+
+		if (!empty($taxonomy)) {
+			foreach ($taxonomy as $key => $value) {
 				$cat[] = join(';', $value);
 			}
 		}

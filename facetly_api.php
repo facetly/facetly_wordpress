@@ -1,6 +1,6 @@
 <?php  
  
-class Facetly { 
+class facetly_api { 
     function setConsumer($key, $secret) {  
         $this->key = $key;
         $this->secret = $secret;  

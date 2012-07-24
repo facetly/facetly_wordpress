@@ -1,8 +1,13 @@
 <?php
 	global $percentage;
 
+	function display_error($error_message = "") {
+	  return  new WP_Error('product_insert', $error_message);
+	}
+
 	function facetly_reindex(){
-		include('facetly_conn.php');
+		$myErrors = new WP_Error();
+		$facetly = facetly_api_init();
 
 		global $wpdb;
 		global $total_all;
@@ -40,7 +45,15 @@
 				
 				foreach( $myrows as $row ) {
 					$post_id = $row->ID;
-					do_save_post($post_id);
+					try {
+						facetly_insert_product($post_id);
+					} catch (Exception $e) {
+						$reindex = "n";
+						$header = '&reindex='.$reindex;
+						
+						$error_message = $e->getMessage();
+						update_option('facetly_error', $error_message);
+					}
 				}
 				$header = '&reindex='.$reindex.'&counter='.$next;
 			} else {
@@ -49,18 +62,33 @@
 					$percentage = 100;
 					$completed = true;
 			}
+			$error_message = get_option('facetly_error');
+			if (!empty($error_message)) {
+				$reindex = "n";
+				$header = '&reindex='.$reindex;
+				$percentage = 100;
+				$completed = true;
+			}
+			
 			echo '<meta http-equiv="refresh" content="2;admin.php?page=facetly-settings-reindex'. $header. '"/>';
 			echo '<meta http-equiv="cache-control" content="NO-CACHE"/>';
 			echo "<h2>" . __( 'Reindexing All WP e-Commerce Data' ) . "</h2>";
 			echo "<h4>" . __( 'Please Wait Until Finish' ) . "</h4>";
 			echo '
-			<div id="progress-outer">
-			    <div id="progress-inner"></div>
-			</div>​';
+				<div id="progress-outer">
+				    <div id="progress-inner"></div>
+				</div>​';
 		}
-		if (!isset($_GET['reindex']) || $_GET['reindex'] == "n" ) {
-			if ( $_GET['reindex'] == "n" ) {
-				echo "<h2>" . __( 'Reindex Completed' ) . "</h2>";
+		if ( !isset($_GET['reindex']) || $_GET['reindex'] == "n" ) {
+			if ( $_GET['reindex'] == "n" && empty($percentage) ) {
+				$error_message = get_option('facetly_error');
+				$error = display_error($error_message);
+				delete_option('facetly_error');
+				if (!empty($error_message)) {
+					if ( is_wp_error($error) ) echo '<div class="error"><p><strong>'. $error->get_error_message(). '</strong></p></div>';
+				} else {
+					echo "<div class='custom_notice'><p><strong>" . __( 'Reindex Completed' ) . "</strong></p></div>";
+				}
 			}
 			$get = $_GET;
 			$get['counter'] = 0;

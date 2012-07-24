@@ -37,12 +37,14 @@
 					$zipdest = TEMPLATEPATH. "/";
 					$backup = zipfile($zipfilename, $zipsource, $zipdest);
 					unlink(TEMPLATEPATH. "/searchform.php");
+				} else {
+					$backup = true;
 				}
 
-				$unzipsource = WP_PLUGIN_DIR. "/facetly/facetly-search-template.zip";
+				$unzipsource = WP_PLUGIN_DIR. "/facetly-woocommerce/facetly-search-template.zip";
 				$unzipdest = TEMPLATEPATH. "/";  //folder directory must be ended with "/", example: c:/xampp/htdocs/wordpress/
 				$unzip1 = unzipfile($unzipsource, $unzipdest);
-
+		
 				if ( $backup && $unzip1 ) {
 					echo "<h4>" . __( 'Files Copy Success' ) . "</h4>";
 				} else {
@@ -98,7 +100,7 @@
 
 		<?php
 			if ( file_exists(TEMPLATEPATH."/facetly-search-template.php") && file_exists(TEMPLATEPATH."/searchform.php") ) {
-				echo "File Already Exist";
+				echo "<div class='custom_notice'><p><strong>File Already Exist</strong></p></div>";
 			}
 		?>
 		<form name="facetly_copy" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">  

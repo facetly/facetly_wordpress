@@ -56,7 +56,7 @@ var options, a;
     this.setOptions(options);
   }
   
-  jQuery.fn.autocomplete = function(options) {
+  jQuery.fn.fautocomplete = function(options) {
     return new Autocomplete(this.get(0)||jQuery('<input />'), options);
   };
 
@@ -261,7 +261,7 @@ var options, a;
               dataType: datatype,
               type: "GET",
               data : me.options.params,
-              success: function(data) {	
+              success: function(data) { 
                 me.processResponse(data, datatype);
               }
          });

@@ -1,7 +1,7 @@
 <?php
 	function facetly_fields(){
 		global $wpdb;
-		include('facetly_conn.php');
+		$facetly = facetly_api_init();
 
 		$default_field = array("-- Not Selected --");
 
@@ -11,9 +11,9 @@
 		$default_fields[] = "post_date";
 		$default_fields[] = "post_title";
 
-		$custom_fields = $wpdb->get_results($wpdb->prepare("SELECT meta_key, meta_value, post_id FROM $wpdb->postmeta JOIN $wpdb->posts ON post_id = ID WHERE post_type = 'wpsc-product' GROUP BY meta_key"));
+		$custom_fields = $wpdb->get_results($wpdb->prepare("SELECT meta_key, meta_value, post_id FROM $wpdb->postmeta JOIN $wpdb->posts ON post_id = ID WHERE post_type = 'wpsc-product' AND meta_value <> ''  GROUP BY meta_key"));
 		foreach( $custom_fields as $custom_value ) {
-			if ( @unserialize( $custom_value->meta_value	 ) === true ) continue;
+			if ( @unserialize( $custom_value->meta_value ) === true ) continue;
 			if ( strpos( $custom_value->meta_key, "hide_on_screen" ) || strpos( $custom_value->meta_key, "layout" ) || strpos($custom_value->meta_key, "meta" ) || strpos( $custom_value->meta_key, "position" ) ) {
 					continue;
 				}

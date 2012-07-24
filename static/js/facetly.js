@@ -1,4 +1,6 @@
 jQuery(document).ready(function() {
+  var baseurlfile=facetly.baseurl+""+facetly.file;
+  
   jQuery('input[facetly="on"]').each(function(index, elm) {
     var input = jQuery(this);
     var autosubmit;    
@@ -38,8 +40,9 @@ jQuery(document).ready(function() {
         params = {};
         facetly_server = facetly.server;
         params.key = facetly.key;
-        params.baseurl = facetly.baseurl+"/"+facetly.file;
+        params.baseurl = baseurlfile;
         params.searchtype = "html";
+        params.limit = facetly.limit;
         if (jQuery(input).val() != "") {
           params.query = jQuery(input).val();
         }
@@ -59,7 +62,7 @@ jQuery(document).ready(function() {
     var params={
       "key" : facetly.key
     }
-    jQuery(input).autocomplete({
+    jQuery(input).fautocomplete({
       autoSubmit: autosubmit,
       noCache: nocache,
       gmap: gmap,
@@ -90,9 +93,7 @@ jQuery(document).ready(function() {
     };	
     
     //console.log(Drupal.settings.facetly_state);
-    //alert(Drupal.settings.facetly_baseurl);
-    var baseurlfile=facetly.baseurl+""+facetly.file;
-    console.log(baseurlfile);
+    //alert(Drupal.settings.facetly_baseurl);    
     if (jQuery('.pager a[href*="'+baseurlfile+'"], #facetly_facet a[href*="'+baseurlfile+'"]')) {
     jQuery.address.state(facetly.baseurl).init(function() {
         // Initializes the plugin

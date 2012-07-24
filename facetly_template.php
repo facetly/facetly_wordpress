@@ -1,11 +1,12 @@
 <?php 
 	function facetly_template(){
-		include('facetly_conn.php');
 		
 		if($_POST['facetly_settings_hidden'] == 'Y') {  
+			
 			$tplsearch = stripslashes($_POST['tplsearch']);  
 			$tplfacet = stripslashes($_POST['tplfacet']);  
 			try {
+				$facetly = facetly_api_init();
 				$response = $facetly->templateUpdate($tplsearch,$tplfacet);
 			} catch (Exception $e) {
 				$error = $e->getMessage();
@@ -21,8 +22,8 @@
 				echo '<div class="updated"><p><strong>'. $response. '</strong></p></div>';
 			}
 		} else {  
-			$tplsearch = get_option('facetly_tplsearch', $tplsearch);
-			$tplfacet = get_option('facetly_tplfacet', $tplfacet);
+			$tplsearch = get_option('facetly_tplsearch');
+			$tplfacet = get_option('facetly_tplfacet');
 		}  
 	?> 
 
