@@ -12,7 +12,7 @@
 		global $wpdb;
 		global $total_all;
 
-	    $limit = 2;
+	    $limit = 25;
 		
 	    if ( $_GET['reindex'] == "y" ) {
 			$query_product = "select pt.ID, pt.post_title from ". $wpdb->prefix. "posts As pt  ";
@@ -118,7 +118,7 @@
 			global $wpdb;
 			global $total_all;
 			
-			$limit = 2;
+			$limit = 25;
 			$counter = $_GET['counter'];
 			$start = $counter*$limit;
 			

@@ -1,23 +1,18 @@
 <?php
 	class Facetly_Widget extends WP_Widget {
-		public function __construct() {
-			parent::__construct(
-		 		'facetly_widget', 
-				'facetly_widget', 
-				array( 'description' => __( 'A Facetly Facets Widget', 'text_domain' ), )
-			);
+		function Facetly_Widget() {
+			$widget_ops = array( 'classname' => 'facetly_widget', 'description' => 'Facetly Facets Widget' ); 
+			$control_ops = array( 'id_base' => 'Facetly_Widget' );
+			$this->WP_Widget( 'Facetly_Widget', 'Facetly Facets', $widget_ops, $control_ops ); 
 		}
 
 		public function widget( $args, $instance ) {
 			extract( $args );
-			$title = apply_filters( 'widget_title', $instance['title'] );
+			$title = "Facetly Search";
+			$title2 = apply_filters( 'widget_title', $title );
 
-			echo $before_widget;
-			if ( ! empty( $title ) )
-				$search = facetly_search();
-				echo $search->facets;
-				
-			echo $after_widget;
+			$search = facetly_search();
+			echo $search->facets;
 		}
 
 		public function update( $new_instance, $old_instance ) {
@@ -32,7 +27,7 @@
 				$title = $instance[ 'title' ];
 			}
 			else {
-				$title = __( 'Facetly', 'text_domain' );
+				$title = __( 'Facetly Search' );
 			}
 			?>
 			<p>

@@ -107,7 +107,6 @@
 	}
 
 	function custom_taxonomies_terms_links($post_id) {
-		//generate only taxonomy related to post
 		$terms = wp_get_object_terms( $post_id, 'wpsc_product_category', array('orderby' => 'parent', 'order' => 'DESC', 'fields' => 'all') );
 
 		foreach ($terms as $key => $value) {
@@ -123,7 +122,6 @@
 			$parent_id = $value->term_id;
 			unset($terms_childs[$parent_id]);
 		}
-		//print_r($terms_childs);
 		foreach ($parents as $key => $value) {
 			$parent_id = $value->term_id;
 			$name = $value->name;
@@ -139,7 +137,72 @@
 				$cat[] = join(';', $value);
 			}
 		}
-
 		return $cat;
 	}
 
+	function facetly_save_post($post_id) {
+		$post = get_post($post_id);
+		$post_type = $post->post_type;
+		$post_status = $post->post_status;
+		echo $post_type;
+		if($post_status == 'trash' || $post_status == 'auto-draft' || $post_type != 'wpsc-product'){
+			return $post_id;
+		} else if ($post_status == 'publish' && $post_type == 'wpsc-product') {
+			try {
+				facetly_insert_product($post_id);
+			} catch (Exception $e) {
+				echo '<div class="error"><p><strong>'. $e->getMessage(). '</strong></p></div>';
+			}
+		} else if ( ($post_status == 'pending' || $post_status == 'draft' ) && $post_type == 'wpsc-product') {
+			$facetly->productDelete($post_id);
+		}
+	}
+	add_action('wp_insert_post', 'facetly_save_post');
+
+	function facetly_insert_product($post_id){
+		global $wpdb;
+
+		$post = get_post($post_id);
+		$url = get_permalink($post_id);
+		$image = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'full-size' );
+		$imageurl = $image['0'];
+		
+		$category = custom_taxonomies_terms_links($post_id);
+		$imageurl = facetly_get_product_imageurl($post_id);
+		
+		$item = array();
+		$meta = get_post_meta($post_id, '');
+		$facetly_fields = get_option('facetly_fields');
+		foreach( $facetly_fields as $key => $value ) {
+			if ( strstr($value, 'post') ) {
+				$item[$key] = $post->$value;
+			} else if (isset($meta[$value])) {
+				$item[$key] = $meta[$value][0];
+			}
+		}
+		$item['id'] = $post_id;
+		$item['url'] = wpsc_product_url($post_id);
+		$item['imageurl'] = $imageurl;
+		$item['category'] = $category;
+		$date = new DateTime($item['created']);
+		$item['created'] = $date->getTimestamp() *1000;
+
+		$facetly = facetly_api_init();
+		$facetly->productUpdate($item);
+	}
+
+	function facetly_delete_product($post_id) {
+		$post = get_post($post_id);
+		$post_type = $post->post_type;
+		if($post->post_status == 'trash' or $post->post_status == 'auto-draft' or $post_type != 'product'){
+			return $post_id;
+		} else if ($post_type == 'product') {
+			try {
+				$facetly = facetly_api_init();
+				$facetly->productDelete($post_id);
+			} catch (Exception $e) {
+				echo '<div class="error"><p><strong>'. $e->getMessage(). '</strong></p></div>';
+			}
+		}
+	}
+	add_action('wp_trash_post', 'facetly_delete_product');
