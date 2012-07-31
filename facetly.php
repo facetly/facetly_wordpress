@@ -92,11 +92,12 @@
 	function style(){
 		wp_register_style('facetly-search-style', plugins_url('static/style/facetly.css', __FILE__));
 		wp_enqueue_style('facetly-search-style');
+		wp_register_style('facetly-search-style-autocomplete', plugins_url('static/style/autocomplete.css', __FILE__));
+		wp_enqueue_style('facetly-search-style-autocomplete');
 		wp_register_style('facetly-search-progress-bar', plugins_url('static/style/progress-bar.css', __FILE__));
 		wp_enqueue_style('facetly-search-progress-bar');
 		wp_register_style('facetly-jquery-dynatree-style', plugins_url('static/style/ui.dynatree.css', __FILE__));
-		wp_enqueue_style('facetly-jquery-dynatree-style');
-		
+		wp_enqueue_style('facetly-jquery-dynatree-style');	
 	};
 	add_action ( 'wp_head', 'style');
 
