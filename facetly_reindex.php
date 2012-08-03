@@ -1,20 +1,18 @@
 <?php
 	global $percentage;
 
-	function display_error($error_message = "") {
-	  return  new WP_Error('product_insert', $error_message);
+	function facetly_reindex_display_error($error_message = "") {
+		return new WP_Error('product_insert', $error_message);
 	}
 
 	function facetly_reindex(){
-		$myErrors = new WP_Error();
 		$facetly = facetly_api_init();
 
 		global $wpdb;
 		global $total_all;
 
 	    $limit = 25;
-		
-	    if ( $_GET['reindex'] == "y" ) {
+		if ( !empty($_GET['reindex']) && $_GET['reindex'] == "y" ) {
 			$query_product = "select pt.ID, pt.post_title from ". $wpdb->prefix. "posts As pt  ";
 			$query_product .= "LEFT JOIN ". $wpdb->prefix. "postmeta As mt ON pt.ID=mt.post_id  ";
 			$query_product .= "WHERE pt.post_type = 'wpsc-product' ";
@@ -57,10 +55,10 @@
 				}
 				$header = '&reindex='.$reindex.'&counter='.$next;
 			} else {
-					$reindex = "n";
-					$header = '&reindex='.$reindex;
-					$percentage = 100;
-					$completed = true;
+				$reindex = "n";
+				$header = '&reindex='.$reindex;
+				$percentage = 100;
+				$completed = true;
 			}
 			$error_message = get_option('facetly_error');
 			if (!empty($error_message)) {
@@ -80,9 +78,9 @@
 				</div>​';
 		}
 		if ( !isset($_GET['reindex']) || $_GET['reindex'] == "n" ) {
-			if ( $_GET['reindex'] == "n" && empty($percentage) ) {
+			if ( !empty($_GET['reindex']) && $_GET['reindex'] == "n" && empty($percentage) ) {
 				$error_message = get_option('facetly_error');
-				$error = display_error($error_message);
+				$error = facetly_reindex_display_error($error_message);
 				delete_option('facetly_error');
 				if (!empty($error_message)) {
 					if ( is_wp_error($error) ) echo '<div class="error"><p><strong>'. $error->get_error_message(). '</strong></p></div>';
@@ -110,7 +108,7 @@
 				</form>  
 			</div> 
 <?php
-		} 
+		} 	
 	}
 
 	function custom_progress_bar($percentage) {
@@ -142,8 +140,6 @@
 			if ($percentage >= 100) {
 				$percentage = 100;
 			}
-			// this is where we'll style our box  
-			
 			echo '<style type="text/css">  
 				#progress-outer {
 					background: #333;

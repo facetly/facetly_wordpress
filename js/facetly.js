@@ -1,4 +1,4 @@
-
+jQuery(document).ready(function() {
     var baseurlfile=facetly.baseurl+""+facetly.file;
     var isfacetlypage = false;
   
@@ -29,10 +29,9 @@
           isctrl = true;
         }
         if (isctrl == false && !(keycode == 0 || keycode == 8 || keycode == 9 || keycode == 13 || (keycode >= 16 && keycode <= 20) || keycode == 27 || (keycode >= 33 && keycode <= 46) || (keycode >= 91 && keycode <= 93) || (keycode >= 112 && keycode <= 123) || (keycode >= 144 && keycode <= 145))) {
-          jQuery('#facetly_result').html('<div class="facetly_loading">Loading Search Result .....</div>');
+          facetly_loading();
         }
-      });
-                                               
+      });                                               
                                      
        jQuery(input).keyup(function(e) {   
         var keycode = e.which; 
@@ -62,8 +61,7 @@
     state = window.history.pushState !== undefined;
     
     // Handles response
-    var handler = function(data) {
-       // jQuery('title').html(jQuery('title', 'test test').html());       
+    var facetly_handler = function(data) {              
         jQuery('#facetly_result').html(data.results);
         jQuery('#facetly_result').show();
         if (data.total > 0) {
@@ -71,19 +69,23 @@
           jQuery('#facetly_facet').show();
           
         } 
+        jQuery('#facetly_result').fadeTo("fast",1.0);
+        jQuery('html, body').animate({ scrollTop: 0 }, "fast");
         jQuery(document).trigger("facetly_loaded");       
-    };	
+    };
     
-    //console.log(Drupal.settings.facetly_state);
-    //alert(Drupal.settings.facetly_baseurl);    
-    if (isfacetlypage) {
+    var facetly_loading = function(data) {
+      //jQuery('#facetly_result').html('<div class="facetly_loading">Loading Search Result .....</div>');
+      jQuery('#facetly_result').fadeTo("fast",0.5);
+    }    	
 
+            
+    if (isfacetlypage) {
     jQuery.address.state(facetly.baseurl).init(function() {
         // Initializes the plugin
         jQuery('#facetly_result .pager a, #facetly_facet a, form[facetly_form="on"]').address();
         
-    }).change(function(event) {
-        //console.log(event);
+    }).change(function(event) {        
         // Selects the proper navigation link
         jQuery('#facetly_result .pager a').each(function() {
             if (jQuery(this).attr('href') == (jQuery.address.state() + event.path)) {
@@ -123,17 +125,19 @@
            params["baseurl"] = baseurlfile;
            params["searchtype"] = "html";
            
+           facetly_loading();        
            jQuery.ajax({
              url: facetly_server + "/search/product",
              dataType: "jsonp",
              type: "GET",
              data : params,
              success: function(data, textStatus, XMLHttpRequest) {		
-              handler(data);
+              facetly_handler(data);
               jQuery(document).trigger("facetly_loaded");
              }
            });
         }
 
     });
-    } 
+    }
+});

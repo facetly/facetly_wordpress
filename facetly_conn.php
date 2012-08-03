@@ -1,6 +1,5 @@
 <?php
-
-	$facetly = new Facetly;
+	$facetly = new facetly_api;
 	$common = get_option('facetly_settings');
 	$consumer_key = $common['key'];
 	$consumer_secret = $common['secret'];
@@ -8,7 +7,3 @@
 	$facetly->setConsumer($consumer_key, $consumer_secret); 
 	$facetly->setServer($server);
 	$facetly->setBaseUrl("/finds");
-
-
-
-?>

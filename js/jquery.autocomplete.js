@@ -197,7 +197,7 @@ var options, a;
 
     onValueChange: function() {
       clearInterval(this.onChangeInterval);
-      this.currentValue = this.el.val();
+      this.currentValue = this.el.val().toLowerCase();
       var q = this.getQuery(this.currentValue);
       this.selectedIndex = -1;
       if (this.ignoreValueChange) {
@@ -214,9 +214,11 @@ var options, a;
     getQuery: function(val) {
       var d, arr;
       d = this.options.delimiter;
-      if (!d) { return jQuery.trim(val); }
+      //if (!d) { return jQuery.trim(val); }
+      if (!d) { return val; }
       arr = val.split(d);
-      return jQuery.trim(arr[arr.length - 1]);
+      //return jQuery.trim(arr[arr.length - 1]);
+      return arr[arr.length - 1];
     },
 
     getSuggestionsLocal: function(q) {

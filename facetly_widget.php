@@ -8,11 +8,10 @@
 
 		public function widget( $args, $instance ) {
 			extract( $args );
-			$title = "Facetly Search";
-			$title2 = apply_filters( 'widget_title', $title );
+			$title = apply_filters( 'widget_title', 'Filter Results' );
 
 			$search = facetly_search();
-			echo $search->facets;
+			echo $title. $search->facets;
 		}
 
 		public function update( $new_instance, $old_instance ) {
@@ -39,4 +38,3 @@
 
 	}
 	add_action( 'widgets_init', create_function( '', 'register_widget( "facetly_widget" );' ) );
-?>

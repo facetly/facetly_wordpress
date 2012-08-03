@@ -1,5 +1,5 @@
-<?php  
- 
+<?php
+
 class facetly_api { 
     function setConsumer($key, $secret) {  
         $this->key = $key;

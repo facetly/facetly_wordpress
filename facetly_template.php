@@ -1,8 +1,6 @@
-<?php 
+<?php
 	function facetly_template(){
-		
-		if($_POST['facetly_settings_hidden'] == 'Y') {  
-			
+		if( !empty($_POST['facetly_template_hidden']) && $_POST['facetly_template_hidden'] == 'Y' ) {  
 			$tplsearch = stripslashes($_POST['tplsearch']);  
 			$tplfacet = stripslashes($_POST['tplfacet']);  
 			try {
@@ -12,26 +10,27 @@
 				$error = $e->getMessage();
 			}
 
-			update_option('facetly_tplsearch', $tplsearch);
-			update_option('facetly_tplfacet', $tplfacet);
 
-			if (!empty($error)) {
+			if ( !empty($error) ) {
 				echo '<div class="error"><p><strong>'. $error. '</strong></p></div>';
 			}
-			if (!empty($response)) {
+			if ( !empty($response) ) {
 				echo '<div class="updated"><p><strong>'. $response. '</strong></p></div>';
+				update_option('facetly_tplsearch', $tplsearch);
+				update_option('facetly_tplfacet', $tplfacet);
 			}
 		} else {  
 			$tplsearch = get_option('facetly_tplsearch');
 			$tplfacet = get_option('facetly_tplfacet');
-		}  
+		} 
+		
 	?> 
 
 	<div class="wrap">  
 		<?php    echo "<h2>" . __( 'Facetly Settings' ) . "</h2>"; ?>  
 		<?php echo "<h4>" . __( 'Facetly Template Settings' ) . "</h4>"; ?>  
 		<form name="facetly_settings" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">  
-			<input type="hidden" name="facetly_settings_hidden" value="Y">  
+			<input type="hidden" name="facetly_template_hidden" value="Y">  
 			<table>
 				<tr>
 					<td><?php _e("Search Template:"); ?></td>
@@ -53,4 +52,3 @@
 	</div> 
 <?php
 	}
-?>
