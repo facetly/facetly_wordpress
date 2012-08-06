@@ -27,8 +27,8 @@
 	?> 
 
 	<div class="wrap">  
-		<?php    echo "<h2>" . __( 'Facetly Settings' ) . "</h2>"; ?>  
-		<?php echo "<h4>" . __( 'Facetly Template Settings' ) . "</h4>"; ?>  
+		<?php    echo "<h2>" . __( 'Facetly Configuration' ) . "</h2>"; ?>  
+		<?php echo "<h4>" . __( 'Facetly Template' ) . "</h4>"; ?>  
 		<form name="facetly_settings" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">  
 			<input type="hidden" name="facetly_template_hidden" value="Y">  
 			<table>

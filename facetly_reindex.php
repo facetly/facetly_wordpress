@@ -19,10 +19,9 @@
 			$query_product .= "AND pt.post_status = 'publish' ";
 			$query_product .= "GROUP BY mt.post_id ";
 			$query_product .= "ORDER BY pt.post_title ";
-			if( empty($total_all) ) {
-				$query = $wpdb->query($query_product);
-				$total_all = $wpdb->num_rows;
-			}
+			$query = $wpdb->query($query_product);
+			$total_all = $wpdb->num_rows;
+			
 			$counter = $_GET['counter'];
 			$next = $counter+1;
 			
@@ -68,14 +67,15 @@
 				$completed = true;
 			}
 			
-			echo '<meta http-equiv="refresh" content="2;admin.php?page=facetly-settings-reindex'. $header. '"/>';
+			echo '<meta http-equiv="refresh" content="2;admin.php?page=facetly-configuration-reindex'. $header. '"/>';
 			echo '<meta http-equiv="cache-control" content="NO-CACHE"/>';
 			echo "<h2>" . __( 'Reindexing All WP e-Commerce Data' ) . "</h2>";
 			echo "<h4>" . __( 'Please Wait Until Finish' ) . "</h4>";
-			echo '
+			echo do_shortcode("[facetly_progress percentage=". $percentage. "]");
+			/*echo '
 				<div id="progress-outer">
 				    <div id="progress-inner"></div>
-				</div>​';
+				</div>​';*/
 		}
 		if ( !isset($_GET['reindex']) || $_GET['reindex'] == "n" ) {
 			if ( !empty($_GET['reindex']) && $_GET['reindex'] == "n" && empty($percentage) ) {
@@ -96,7 +96,7 @@
 			?>
 
 			<div class="wrap">
-				<?php    echo "<h2>" . __( 'Facetly Settings' ) . "</h2>"; ?>  
+				<?php    echo "<h2>" . __( 'Facetly Configuration' ) . "</h2>"; ?>  
 				<?php echo "<h4>" . __( 'Facetly Reindex' ) . "</h4>"; 
 
 				?>  
@@ -110,54 +110,3 @@
 <?php
 		} 	
 	}
-
-	function custom_progress_bar($percentage) {
-		if (strstr($_SERVER['REQUEST_URI'], 'page=facetly-settings-reindex') && strstr($_SERVER['REQUEST_URI'], 'reindex=y')) {	
-			global $wpdb;
-			global $total_all;
-			
-			$limit = 25;
-			$counter = $_GET['counter'];
-			$start = $counter*$limit;
-			
-			if ($counter == 0 ) {
-				$start = 0;
-			}
-
-			$query_product = "select pt.ID, pt.post_title from ". $wpdb->prefix. "posts As pt  ";
-			$query_product .= "LEFT JOIN ". $wpdb->prefix. "postmeta As mt ON pt.ID=mt.post_id  ";
-			$query_product .= "WHERE pt.post_type = 'wpsc-product' ";
-			$query_product .= "AND pt.post_status = 'publish' ";
-			$query_product .= "GROUP BY mt.post_id ";
-			$query_product .= "ORDER BY pt.post_title ";
-			$query = $wpdb->query($query_product);
-			$total_all = $wpdb->num_rows;
-			$percentage = $start/$total_all*100;
-
-			if (empty($percentage)) {
-				$percentage = 0;
-			}
-			if ($percentage >= 100) {
-				$percentage = 100;
-			}
-			echo '<style type="text/css">  
-				#progress-outer {
-					background: #333;
-					-webkit-border-radius: 13px;
-					margin-left: auto;
-					margin-right: auto;
-					height: 30px;
-					width: 1100px;
-					padding: 3px;
-				}
-
-				#progress-inner {
-					background: green;
-					width: '. $percentage. '%;
-					height: 100%;
-					-webkit-border-radius: 9px;
-				} 
-				</style>';
-		}
-	}
-	add_action('admin_head', 'custom_progress_bar');

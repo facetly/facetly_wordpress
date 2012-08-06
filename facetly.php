@@ -58,10 +58,10 @@
 	register_activation_hook( __FILE__, 'facetly_activated' );
 	
 	function facetly_admin_actions(){
-		add_menu_page("Facetly Settings", "Facetly Settings", 'manage_options', "facetly-settings", "facetly_admin");
-		add_submenu_page("facetly-settings", "Fields", "Fields", 'manage_options', "facetly-settings-fields", "facetly_fields");
-		add_submenu_page("facetly-settings", "Reindex", "Reindex", 'manage_options', "facetly-settings-reindex", "facetly_reindex");
-		add_submenu_page("facetly-settings", "Template", "Template", 'manage_options', "facetly-settings-template", "facetly_template");
+		add_menu_page("Facetly Configuration", "Facetly Configuration", 'manage_options', "facetly-configuration", "facetly_admin");
+		add_submenu_page("facetly-configuration", "Fields", "Fields", 'manage_options', "facetly-configuration-fields", "facetly_fields");
+		add_submenu_page("facetly-configuration", "Reindex", "Reindex", 'manage_options', "facetly-configuration-reindex", "facetly_reindex");
+		add_submenu_page("facetly-configuration", "Template", "Template", 'manage_options', "facetly-configuration-template", "facetly_template");
 	}
 	add_action('admin_menu', 'facetly_admin_actions');
 
@@ -130,7 +130,7 @@
 	add_action('wp_head', 'add_js_connection');
 
 	function facetly_admin_head_init(){
-		wp_register_style('facetly-admin-style', plugins_url('static/style/facetly-admin.css', __FILE__));
+		wp_register_style('facetly-admin-style', plugins_url('css/facetly-admin.css', __FILE__));
 		wp_enqueue_style('facetly-admin-style');
 	}
 	add_action( 'admin_head', 'facetly_admin_head_init' );
@@ -192,3 +192,43 @@
 		return $return;
 	} 
 	add_shortcode( 'facetly_search', 'facetly_search_shortcode' );
+
+	function facetly_progressbar( $atts ){
+		extract( shortcode_atts( array(
+			'percentage' => 0,
+		), $atts ) );
+		
+		echo '<style type="text/css">  
+			#progress-outer {
+				background: #333;
+				-webkit-border-radius: 13px;
+				margin-left: auto;
+				margin-right: auto;
+				height: 30px;
+				width: 1100px;
+				padding: 3px;
+			}
+			#progress-text {
+				width: 1100px;
+				text-align: center;
+				line-height: 30px;
+				font-size: 14px;
+				color:red;
+			}
+
+			#progress-inner {
+				background: green;
+				width: '. $percentage. '%;
+				height: 100%;
+				-webkit-border-radius: 9px;
+			} 
+			</style>';
+
+			$progress_bar = '
+				<div id="progress-outer">
+				    <div id="progress-inner"> <div id="progress-text">'. $percentage. '%</div></div>
+				</div>​';
+
+			return $progress_bar;
+	}
+	add_shortcode( 'facetly_progress', 'facetly_progressbar' );
