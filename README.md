@@ -1,4 +1,4 @@
-facetly_wordpress
+Facetly Wordpress
 =================
 
 Facetly Wordpress Plugin
@@ -27,7 +27,7 @@ Configure Facetly Plugin
 
 The next step is set up Facetly Plugin for your store.
 
-1. Input your Consumer Key, Consumer Secret, Server Name, Search Limit, and Additional Variable (as we already seen in previous picture) in Facetly Settings sub menu.
+1. Input your Consumer Key, Consumer Secret, Server Name, Search Limit, and Additional Variable in Facetly Settings sub menu.
 
 2. Check your permission for template folder and current active template folder. If the permission is "0777" (rwxrwxrwx), you can just use "Copy File" feature, otherwise extract "facetly-search-template.zip" and "searchform.zip" to your current active template folder and make sure you have already backup your "searchform.php" file in your active theme folder if file exists.
     
