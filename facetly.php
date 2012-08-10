@@ -15,7 +15,7 @@
 	require_once('facetly_widget.php');
 
 	function facetly_deactivated() {
-    	/*delete_option('facetly_fields');
+    	delete_option('facetly_fields');
 	    delete_option('facetly_settings');
 	    delete_option('facetly_tplpage');
 		delete_option('facetly_tplsearch');
@@ -31,14 +31,14 @@
 			$facetly_searchtpl = TEMPLATEPATH. "/searchform.php";
 			unlink($facetly_searchtpl);
 				
-		}*/
+		}
 	}
 
 	register_deactivation_hook( __FILE__, 'facetly_deactivated' );
 	register_uninstall_hook( __FILE__, 'facetly_deactivated' );
 
 	function facetly_activated(){
-		/*add_option('facetly_fields');
+		add_option('facetly_fields');
 		add_option('facetly_settings');
 		add_option('facetly_tplpage');
 		add_option('facetly_tplsearch');
