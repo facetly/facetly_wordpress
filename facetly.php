@@ -15,9 +15,9 @@ require_once("facetly_template.php");
 require_once('facetly_widget.php');
 
 function facetly_deactivated() {
-delete_option('facetly_fields');
-    delete_option('facetly_settings');
-    delete_option('facetly_tplpage');
+	delete_option('facetly_fields');
+	delete_option('facetly_settings');
+	delete_option('facetly_tplpage');
 	delete_option('facetly_tplsearch');
 	delete_option('facetly_tplfacet');
 
@@ -25,7 +25,7 @@ delete_option('facetly_fields');
 	$unzipdest = TEMPLATEPATH. "/";
 	$unzip1 = unzipfile($unzipsource, $unzipdest);
 
-if ( is_writable(TEMPLATEPATH) ) {
+	if ( is_writable(TEMPLATEPATH) ) {
 		$facetly_searchtpl = TEMPLATEPATH. "/facetly-search-template.php";
 		unlink($facetly_searchtpl);
 		$facetly_searchtpl = TEMPLATEPATH. "/searchform.php";
