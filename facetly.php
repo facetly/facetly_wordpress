@@ -29,8 +29,12 @@ function facetly_deactivated() {
 		$facetly_searchtpl = TEMPLATEPATH. "/facetly-search-template.php";
 		unlink($facetly_searchtpl);
 		$facetly_searchtpl = TEMPLATEPATH. "/searchform.php";
-		unlink($facetly_searchtpl);
-			
+		unlink($facetly_searchtpl);	
+	}
+	$facetly_page = get_page_by_path('finds');;
+	if (!empty($facetly_page)) {
+		$facetly_page_id = $facetly_page->ID;
+		wp_delete_post($facetly_page_id, true);
 	}
 }
 
