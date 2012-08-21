@@ -1,10 +1,10 @@
 <?php
 function facetly_template(){
+	$facetly = facetly_api_init();
 	if( !empty($_POST['facetly_template_hidden']) && $_POST['facetly_template_hidden'] == 'Y' ) {  
 		$tplsearch = stripslashes($_POST['tplsearch']);  
 		$tplfacet = stripslashes($_POST['tplfacet']);  
 		try {
-			$facetly = facetly_api_init();
 			$response = $facetly->templateUpdate($tplsearch,$tplfacet);
 		} catch (Exception $e) {
 			$error = $e->getMessage();
@@ -19,9 +19,22 @@ function facetly_template(){
 			update_option('facetly_tplsearch', $tplsearch);
 			update_option('facetly_tplfacet', $tplfacet);
 		}
-	} else {  
+	} else {
 		$tplsearch = get_option('facetly_tplsearch');
 		$tplfacet = get_option('facetly_tplfacet');
+
+		try {
+			$template = $facetly->templateSelect();
+			if (empty($tplfacet) && empty($tplsearch)) {
+				$tplsearch = $template->tplsearch;
+				$tplfacet = $template->tplfacet;
+			}
+		} catch (Exception $e) {
+			echo '<div class="error"><p><strong>'. $e->getMessage(). '</strong></p></div>';
+		}
+		if (empty($template)) {
+		   	echo '<div class="error"><p><strong>Can not connect to server, please check your consumer API configuration or contact our support if problem persist.</strong></p></div>';
+		}
 	} 
 	
 ?> 

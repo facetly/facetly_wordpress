@@ -89,7 +89,10 @@ function facetly_reindex(){
 		$get['counter'] = 0;
 		$get['reindex'] = 'y';
 		
-		$url_query = http_build_query($get,'','&'); 		
+		$url_query = http_build_query($get,'','&');
+		try {
+			$facetly = facetly_api_init();
+			$fields = $facetly->fieldSelect();	
 		?>
 
 		<div class="wrap">
@@ -105,5 +108,11 @@ function facetly_reindex(){
 			</form>  
 		</div> 
 <?php
+		} catch (Exception $e) {
+			echo '<div class="error"><p><strong>'. $e->getMessage(). '</strong></p></div>';
+		}
+		if (empty($fields)) {
+		   	echo '<div class="error"><p><strong>Can not connect to server, please check your consumer API configuration or contact our support if problem persist.</strong></p></div>';
+		}
 	} 	
 }

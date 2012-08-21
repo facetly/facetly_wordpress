@@ -34,11 +34,19 @@ function facetly_admin(){
 	    }
 	} else {  
 		$common = get_option('facetly_settings');
-		$consumer_key = trim($common['key']);
-		$consumer_secret = trim($common['secret']);
-		$server = $common['server'];
-		$limit = $common['limit'];
-		$add_variable = $common['add_variable'];
+		if (!empty($common)) {
+			$consumer_key = trim($common['key']);
+			$consumer_secret = trim($common['secret']);
+			$server = $common['server'];
+			$limit = $common['limit'];
+			$add_variable = $common['add_variable'];
+		} else {
+			$consumer_key = "";
+			$consumer_secret = "";
+			$server = "";
+			$limit = "";
+			$add_variable = "";
+		}
 	}
 
 	if( !empty($_POST['facetly_copy_hidden']) && $_POST['facetly_copy_hidden'] == 'Y' ) {
@@ -52,11 +60,10 @@ function facetly_admin(){
 			} else {
 				$backup = true;
 			}
-
-			$unzipsource = WP_PLUGIN_DIR. "/facetly-woocommerce/facetly-search-template.zip";
+			$unzipsource = WP_PLUGIN_DIR. "/facetly/facetly-search-template.zip";
 			$unzipdest = TEMPLATEPATH. "/";  //folder directory must be ended with "/", example: c:/xampp/htdocs/wordpress/
 			$unzip1 = unzipfile($unzipsource, $unzipdest);
-	
+			
 			if ( $backup && $unzip1 ) {
 				$facetly_page = get_page_by_path('finds');;
 				$facetly_page_id = $facetly_page->ID;

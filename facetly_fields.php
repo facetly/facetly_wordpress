@@ -1,8 +1,13 @@
 <?php
 function facetly_fields(){
 global $wpdb;
-$facetly = facetly_api_init();
-$fields = $facetly->fieldSelect();
+try {
+	$facetly = facetly_api_init();
+	$fields = $facetly->fieldSelect();
+} catch (Exception $e) {
+	echo '<div class="error"><p><strong>'. $e->getMessage(). '</strong></p></div>';
+}
+
 if (empty($fields)) {
    	echo '<div class="error"><p><strong>Can not connect to server, please check your consumer API configuration or contact our support if problem persist.</strong></p></div>';
 } else {

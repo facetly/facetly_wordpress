@@ -5,18 +5,26 @@ function facetly_api_init() {
 
     if ( empty( $facetly ) ) {
         require_once("facetly_api.php");
-
-        $facetly = new facetly_api();
         $common = get_option('facetly_settings');
-		$consumer_key = $common['key'];
-		$consumer_secret = $common['secret'];
-		$server = $common['server'];
-		$add_variable = $common['add_variable'];
-		$base_url = "/finds?". $add_variable;
+	    $facetly = new facetly_api();
+        if (!empty($common)) {
+			$consumer_key = $common['key'];
+			$consumer_secret = $common['secret'];
+			$server = $common['server'];
+			$add_variable = $common['add_variable'];
+		} else {
+			$consumer_key = "";
+			$consumer_secret = "";
+			$server = "";
+			$limit = "";
+			$add_variable = "";
+		}
 
-		$facetly->setConsumer($consumer_key, $consumer_secret); 
-		$facetly->setServer($server);
-		$facetly->setBaseUrl($base_url);
+			$base_url = "/finds?". $add_variable;
+			$facetly->setConsumer($consumer_key, $consumer_secret); 
+			$facetly->setServer($server);
+			$facetly->setBaseUrl($base_url);
+
     }
     return $facetly;
 }
@@ -97,7 +105,6 @@ function zipfile($filename, $pathsource, $pathdestination){
 function unzipfile($pathsource, $pathdestination){
 	$pathsource = str_replace("\\", "/", $pathsource);
 	$pathdestination = str_replace("\\", "/", $pathdestination);
-
 	$zip = zip_open($pathsource);
 	if ($zip) {
 		while ($zip_entry = zip_read($zip)) {
