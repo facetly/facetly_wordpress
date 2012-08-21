@@ -46,7 +46,7 @@ function facetly_activated(){
 	add_option('facetly_settings');
 	add_option('facetly_tplpage');
 	add_option('facetly_tplsearch');
-	add_option('facetly_tplfacet');*
+	add_option('facetly_tplfacet');
 	$facetly_page = wp_insert_post( array(
 		'post_title' => 'Facetly Search',
 		'post_type' 	=> 'page',
