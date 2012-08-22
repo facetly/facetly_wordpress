@@ -115,23 +115,25 @@
 
 	function add_js_connection(){
 		$common = get_option('facetly_settings');
-		$key = $common['key'];
-		$secret = $common['secret'];
-		$server = $common['server'];
-		$limit = $common['limit'];
-		$add_variable = $common['add_variable'];
-		
-		echo '
-		<script type="text/javascript">
-			var facetly = {
-			    "key" : "'. $key. '",
-			    "server" : "'. $server. '",
-			    "file" : "finds?'. $add_variable. '",
-			    "baseurl" : "/",
-			    "limit" : "'. $limit. '",
-			}
+		if (!empty($common)) {
+			$key = $common['key'];
+			$secret = $common['secret'];
+			$server = $common['server'];
+			$limit = $common['limit'];
+			$add_variable = $common['add_variable'];
 			
-		</script>';
+			echo '
+			<script type="text/javascript">
+				var facetly = {
+				    "key" : "'. $key. '",
+				    "server" : "'. $server. '",
+				    "file" : "finds?'. $add_variable. '",
+				    "baseurl" : "/",
+				    "limit" : "'. $limit. '",
+				}
+				
+			</script>';
+		}
 	}
 	add_action('wp_head', 'add_js_connection');
 

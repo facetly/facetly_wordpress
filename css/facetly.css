@@ -17,8 +17,8 @@
   margin-left: 1px;
 }
 
-#facetly_facet a:link, a:visited {text-decoration: none; color: black;}
-#facetly_facet a:hover {text-decoration: underline; color: #06C;}
+table a {text-decoration: none; color: #06C;}
+table a:hover {text-decoration: underline;}
 
 .item-list ul.pager {
   list-style-type: none;
@@ -41,11 +41,16 @@ ul.facets li,ul{
   list-style-type: none;
 }
 
-.item-list ul.pager li a:link, a:visited, a{
-  color: #000000;
-  text-decoration: none;
-}
+
 
 #facetly_result .facetly_loading {
   text-align: center;
+}
+
+#facetly_facet li a {
+  color: #000;
+}
+
+.item-list li a {
+  color: #000;
 }
