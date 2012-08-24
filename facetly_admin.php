@@ -1,45 +1,51 @@
 <?php
 	function facetly_admin() {
 		if( !empty($_POST['facetly_settings_hidden']) && $_POST['facetly_settings_hidden'] == 'Y' ) {  
-			$consumer_key = $_POST['facetly_key'];  
-			$consumer_secret = $_POST['facetly_secret'];  
-			$server = $_POST['facetly_server']; 
-			$limit = $_POST['facetly_limit'];
-			$add_variable = $_POST['facetly_add_variable']; 
+			$consumer_key = trim($_POST['facetly_key']);  
+			$consumer_secret = trim($_POST['facetly_secret']);  
+			$server = trim($_POST['facetly_server']); 
+			$limit = trim($_POST['facetly_limit']);
+			$add_variable = trim($_POST['facetly_add_variable']); 
 
-		    try {
-				$facetly = facetly_api_init();
-			    $facetly->setServer($server);
-			    $facetly->setConsumer($consumer_key, $consumer_secret);
-			    $fields = $facetly->fieldSelect();
-		    } catch (Exception $e) {
-		    	$error = $e->getMessage();
-		    }
+			if (!is_numeric($limit)) {
+				echo '<div class="error"><p><strong>Search limit setting must be numeric.</strong></p></div>';
+			} else {
 
-		    if (empty($fields)) {
-		    	echo '<div class="error"><p><strong>Can not connect to server, please check your consumer API configuration or contact our support if problem persist.</strong></p></div>';
-		    } else {
-				$settings = array(
-					'key' => $consumer_key,
-					'secret' => $consumer_secret,
-					'server' => $server,
-					'limit' => $limit,
-					'add_variable' => $add_variable,
-				);
+			    try {
+					$facetly = facetly_api_init();
+				    $facetly->setServer($server);
+				    $facetly->setConsumer($consumer_key, $consumer_secret);
+				    $fields = $facetly->fieldSelect();
+			    } catch (Exception $e) {
+			    	$error = $e->getMessage();
+			    }
 
-				update_option('facetly_settings', $settings);  
-				?>  
-				<div class="updated"><p><strong><?php _e('Options saved.' ); ?></strong></p></div>  
-				<?php  
-		    }
+			    if (empty($fields)) {
+			    	echo '<div class="error"><p><strong>Can not connect to server, please check your consumer API configuration or contact our support if problem persist.</strong></p></div>';
+			    } else {
+					$settings = array(
+						'key' => $consumer_key,
+						'secret' => $consumer_secret,
+						'server' => $server,
+						'limit' => $limit,
+						'add_variable' => $add_variable,
+					);
+
+					update_option('facetly_settings', $settings);  
+					?>  
+					<div class="updated"><p><strong><?php _e('Options saved.' ); ?></strong></p></div>  
+					<?php  
+			    }
+			}
+
 		} else {  
 			$common = get_option('facetly_settings');
 			if (!empty($common)) {
 				$consumer_key = trim($common['key']);
 				$consumer_secret = trim($common['secret']);
-				$server = $common['server'];
-				$limit = $common['limit'];
-				$add_variable = $common['add_variable'];
+				$server = trim($common['server']);
+				$limit = trim($common['limit']);
+				$add_variable = trim($common['add_variable']);
 			} else {
 				$consumer_key = "";
 				$consumer_secret = "";
