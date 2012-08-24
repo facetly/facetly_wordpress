@@ -167,7 +167,7 @@
 		}
 
 	    function call($path, $data, $method ){
-	    	if (!$this->key || !$this->secret || !$this->server) throw new Exception('Empty Consumer Configuration');     	    	
+	    	if (!$this->key || !$this->secret || !$this->server) throw new Exception('Consumer Configuration is Empty');     	    	
 	    	$data = http_build_query($data,'','&'); 
 	    	//replace multiple values [0]..[n] to [], thanks to http://www.php.net/manual/en/function.http-build-query.php#78603
 	    	$data = preg_replace('/%5B(?:[0-9]|[1-9][0-9]+)%5D=/', '[]=', $data);
