@@ -44,7 +44,8 @@
 					$post_id = $row->ID;
 					try {
 						facetly_insert_product($post_id);
-					} catch (Exception $e) {
+					} 
+					catch (Exception $e) {
 						$reindex = "n";
 						$header = '&reindex='.$reindex;
 						
@@ -72,7 +73,6 @@
 			echo "<h2>" . __( 'Reindexing All WP e-Commerce Data' ) . "</h2>";
 			echo "<h4>" . __( 'Please Wait Until Finish' ) . "</h4>";
 			echo do_shortcode("[facetly_progress percentage=". $percentage. "]");
-
 		}
 		if ( !isset($_GET['reindex']) || $_GET['reindex'] == "n" ) {
 			if ( !empty($_GET['reindex']) && $_GET['reindex'] == "n" && empty($percentage) ) {
@@ -92,16 +92,12 @@
 			$url_query = http_build_query($get,'','&');
 			try {
 				$fields = $facetly->fieldSelect();	
-				$facetly_fields = get_option('facetly_fields');
-				if (!empty($facetly_fields)) {
+				if (!empty($fields)) {
 				?>
 					<div class="wrap">
 						<?php    echo "<h2>" . __( 'Facetly Configuration' ) . "</h2>"; ?>  
-						<?php echo "<h4>" . __( 'Facetly Reindex' ) . "</h4>"; 
-
-						?>  
+						<?php echo "<h4>" . __( 'Facetly Reindex' ) . "</h4>"; ?>  
 						<form name="facetly_settings" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['PHP_SELF']). "?". $url_query; ?>">  	
-							<input type="hidden" name="facetly_settings_hidden" value="Y">  
 							<p class="submit">  
 								<input type="submit" name="Submit" value="<?php _e('Start Reindex' ) ?>" />  
 							</p>  
@@ -111,9 +107,9 @@
 				}
 			} catch (Exception $e) {
 				echo '<div class="error"><p><strong>'. $e->getMessage(). '</strong></p></div>';
-			}
-			if (empty($fields)) {
-			   	echo '<div class="error"><p><strong>Can not connect to server, please check your consumer API configuration or contact our support if problem persist.</strong></p></div>';
+				if (empty($fields)) {
+					echo '<div class="error"><p><strong>Can not connect to server, please check your consumer API configuration or contact our support if problem persist.</strong></p></div>';
+				}
 			}
 		} 	
 	}

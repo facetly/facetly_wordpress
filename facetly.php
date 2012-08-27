@@ -89,12 +89,6 @@
 		wp_enqueue_script('facetly-search-jquery-autocomplete-js');
 		wp_register_script('facetly-search-facetly-js', plugins_url('js/facetly.js', __FILE__));
 		wp_enqueue_script('facetly-search-facetly-js');
-		wp_register_script('facetly-jquery-ui-custom-js', get_template_directory_uri(). '/js/jquery-ui.custom.js');
-		wp_enqueue_script('facetly-jquery-ui-custom-js');
-		wp_register_script('facetly-jquery-dynatree-js', get_template_directory_uri(). '/js/jquery.dynatree.js');
-		wp_enqueue_script('facetly-jquery-dynatree-js');
-		wp_register_script('facetly-jquery-dynatree-init-js', get_template_directory_uri(). '/js/jquery.dynatree.init.js');
-		wp_enqueue_script('facetly-jquery-dynatree-init-js');
 	};
 	add_action ( 'wp_head', 'facetly_js');
 
@@ -128,7 +122,7 @@
 				    "key" : "'. $key. '",
 				    "server" : "'. $server. '",
 				    "file" : "finds?'. $add_variable. '",
-				    "baseurl" : "/",
+				    "baseurl" : "'. site_url(). '/",
 				    "limit" : "'. $limit. '",
 				}
 				
