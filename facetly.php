@@ -77,8 +77,7 @@
 		wp_enqueue_style('facetly-search-autocomplete-style');
 		wp_register_style('facetly-search-progress-bar', plugins_url('css/progress-bar.css', __FILE__));
 		wp_enqueue_style('facetly-search-progress-bar');
-		wp_register_style('facetly-jquery-dynatree-style', plugins_url('css/ui.dynatree.css', __FILE__));
-		wp_enqueue_style('facetly-jquery-dynatree-style');
+
 	};
 	add_action ( 'wp_head', 'facetly_style');
 
