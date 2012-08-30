@@ -1,6 +1,6 @@
 <?php
 
-	 function facetly_api_init() {
+	function facetly_api_init() {
         static $facetly;
         
         if ( empty( $facetly ) ) {
