@@ -71,8 +71,7 @@
 				$unzip1 = unzipfile($unzipsource, $unzipdest);
 				
 				if ( $backup && $unzip1 ) {
-					$facetly_page = get_page_by_path('finds');;
-					$facetly_page_id = $facetly_page->ID;
+					$facetly_page_id = get_option('facetly_page_id');
 					update_post_meta($facetly_page_id, "_wp_page_template", "facetly-search-template.php");
 					echo "<h4>" . __( 'Files Copy Success' ) . "</h4>";
 				} else {

@@ -19,8 +19,10 @@
                 $limit = '';
                 $add_variable = '';
             }
-
-            $base_url = site_url(). '?'. $add_variable;
+            $facetly_page_id = get_option('facetly_page_id');
+			$facetly_page_data = get_page($facetly_page_id);
+			$facetly_post_name = $facetly_page_data->post_name;
+            $base_url = '/'.$facetly_post_name. '?'. $add_variable;
             $facetly->setConsumer($consumer_key, $consumer_secret); 
             $facetly->setServer($server);
             $facetly->setBaseUrl($base_url);
