@@ -13,6 +13,7 @@ How to install Facetly Plugin in wordpress
      b. wordpress 3.0 or higher (we are not guarantee facetly plugin would be work properly in previous version)
     
      c. Activated Wordpress E-Commerce depends on your platform, please download this plugin here (http://wordpress.org/extend/plugins/wp-e-commerce/).
+
      d. Add permalinks in your wordpress, please follow this guide (http://codex.wordpress.org/Settings_Permalinks_Screen).
 
 2. Download Facetly Plugin from github (https://github.com/facetly/facetly_wordpress) and upload it to your plugins folder using FTP program
