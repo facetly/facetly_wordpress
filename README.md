@@ -16,7 +16,7 @@ How to install Facetly Plugin in wordpress
 
      d. Add permalinks in your wordpress, please follow this guide (http://codex.wordpress.org/Settings_Permalinks_Screen).
 
-2. Download Facetly Plugin from github (https://github.com/facetly/facetly_wordpress) and upload it to your plugins folder using FTP program
+2. Download Facetly Plugin from github (https://github.com/facetly/facetly_wordpress) and rename folder into facetly then upload it to wordpress >> wp-content >> plugins using FTP program
 
 3. After Facetly Plugin successfully installed in your Wordpress, you will find Facetly Settings in your admin menu and contain submenus: Facetly Configuration, Fields, Reindex, and Template
 
