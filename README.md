@@ -15,10 +15,12 @@ How to install Facetly Plugin in wordpress
      c. Activated Wordpress E-Commerce depends on your platform, please download this plugin here (http://wordpress.org/extend/plugins/wp-e-commerce/).
 
      d. Add permalinks in your wordpress, please follow this guide (http://codex.wordpress.org/Settings_Permalinks_Screen).
+     
+     e. Enable curl in php, please follow our guide here (https://www.facetly.com/doc/howto/curl)
 
 2. Download Facetly Plugin from github (https://github.com/facetly/facetly_wordpress) and rename folder into facetly then upload it to wordpress >> wp-content >> plugins using FTP program
 
-3. After Facetly Plugin successfully installed in your Wordpress, you will find Facetly Settings in your admin menu and contain submenus: Facetly Configuration, Fields, Reindex, and Template
+3. After Facetly Plugin successfully installed in your Wordpress, you will find Facetly Configuration in your admin menu and contain submenus: Facetly Configuration, Fields, Reindex, and Template
 
 Configure Facetly Plugin
 ------------------------
