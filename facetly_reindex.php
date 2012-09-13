@@ -26,7 +26,7 @@
 			$query_product .= "(". $post_type.")";
 			$query_product .= " AND pt.post_status = 'publish' ";
 			$query_product .= " GROUP BY mt.post_id ";
-			$query_product .= " ORDER BY pt.post_id ";
+			$query_product .= " ORDER BY pt.ID ";
 			$query = $wpdb->query($query_product);
 			$total_all = $wpdb->num_rows;
 			
