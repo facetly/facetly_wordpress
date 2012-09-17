@@ -184,7 +184,7 @@
 			curl_setopt($Curl_Session, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($Curl_Session, CURLOPT_CUSTOMREQUEST, $method);
 			curl_setopt($Curl_Session, CURLOPT_ENCODING, 1);
-			curl_setopt($Curl_Session, CURLOPT_FOLLOWLOCATION, 1);
+			//curl_setopt($Curl_Session, CURLOPT_FOLLOWLOCATION, 1);
 			curl_setopt($Curl_Session, CURLOPT_HTTPHEADER, array("Accept-Encoding: gzip"));
 			$output = curl_exec ($Curl_Session);
 			$header = curl_getinfo($Curl_Session);
