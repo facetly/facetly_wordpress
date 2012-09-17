@@ -54,33 +54,6 @@
 				$add_variable = "";
 			}
 		}
-
-		if( !empty($_POST['facetly_copy_hidden']) && $_POST['facetly_copy_hidden'] == 'Y' ) {
-			if ( is_writable(TEMPLATEPATH) ) {
-				if( file_exists(TEMPLATEPATH."/searchform.php") ) {
-					$zipfilename = "searchform.php";
-					$zipsource = TEMPLATEPATH. "/searchform.php";
-					$zipdest = TEMPLATEPATH. "/";
-					$backup = zipfile($zipfilename, $zipsource, $zipdest);
-					unlink(TEMPLATEPATH. "/searchform.php");
-				} else {
-					$backup = true;
-				}
-				$unzipsource = WP_PLUGIN_DIR. "/facetly/facetly-search-template.zip";
-				$unzipdest = TEMPLATEPATH. "/";  //folder directory must be ended with "/", example: c:/xampp/htdocs/wordpress/
-				$unzip1 = unzipfile($unzipsource, $unzipdest);
-				
-				if ( $backup && $unzip1 ) {
-					$facetly_page_id = get_option('facetly_page_id');
-					update_post_meta($facetly_page_id, "_wp_page_template", "facetly-search-template.php");
-					echo "<h4>" . __( 'Files Copy Success' ) . "</h4>";
-				} else {
-					echo "<h4>" . __( 'Files Copy Not Success' ) . "</h4>";
-				}
-			} else {
-				echo "<h4>" . __( 'Theme Folder is Not Writable' ) . "</h4>";
-			}
-		}
 	?> 
 		<div class="wrap">  
 			<?php    echo "<h2>" . __( 'Facetly Configuration' ) . "</h2>"; ?>  
