@@ -29,9 +29,10 @@ The next step is set up Facetly Plugin for your store.
 
 1. Input your Consumer Key, Consumer Secret, Server Name, Search Limit, and Additional Variable in Facetly Configuration sub menu.
 
-2. Check your permission for template folder and current active template folder. If the permission is "0777" (rwxrwxrwx), you can just use Copy File feature, otherwise extract facetly-search-template.zip to your current active template folder and make sure you have already backup your "searchform.php" file in your active theme folder if file exists.
+2. Extract facetly-search-template.zip to your current active template folder and make sure you have already backup your "searchform.php" file in your active theme folder if file exists. 
+   Go to pages menu in your wp-admin and edit Facetly Search page. Change the template from default template to Facetly Search.
 
-    <b>Please note: this search template is based on twenty ten default theme, if you use another theme, please make some adjustments such as id and class which match your template configuration.</b>
+    <b>Please note: this search template (in facetly-search-template.php) is based on twenty ten default theme, if you use another theme, please make some adjustments such as id and class which match your template configuration.</b>
 
 3. After completed step 1 and 2, go to Fields sub menu. This sub menu is used to map our defined field in http://www.facetly.com and field which defined in your Wordpress store. Please follow instruction in https://www.facetly.com/doc/field to set field mapping.
 
