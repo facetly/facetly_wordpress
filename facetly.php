@@ -13,6 +13,45 @@
 	require_once("facetly_reindex.php");
 	require_once("facetly_template.php");
 	require_once('facetly_widget.php');
+	
+	function facetly_activated(){
+		add_option('facetly_fields');
+		add_option('facetly_settings');
+		add_option('facetly_tplpage');
+		add_option('facetly_tplsearch');
+		add_option('facetly_tplfacet');
+		add_option('facetly_page_id');
+		$facetly_page = wp_insert_post( array(
+			'post_title' => 'Facetly Search',
+			'post_type' => 'page',
+			'post_name'	 => 'finds',
+			'comment_status' => 'closed',
+			'ping_status' => 'closed',
+			'post_content' => '',
+			'post_status' => 'publish',
+			'post_author' => 1,
+			'menu_order' => 0,
+			'guid' => site_url() . "/finds",
+		), true);
+		
+		$facetly_page_data = get_page_by_path('finds');
+		$facetly_page_id = $facetly_page_data->ID;
+		update_option('facetly_page_id', $facetly_page_id);  
+	}
+
+	register_activation_hook( __FILE__, function() {
+	  	add_option('activated_plugin','facetly');
+	});
+
+	add_action('admin_init','load_plugin');
+	function load_plugin() {
+	    if(is_admin() && get_option('activated_plugin') == 'facetly') {
+	     facetly_activated();
+	     delete_option('activated_plugin');
+	    }
+	}
+	
+	add_action('activate_facetly', 'facetly_activated');
 
 	function facetly_deactivated() {
 		delete_option('facetly_fields');
@@ -39,29 +78,6 @@
 	register_deactivation_hook( __FILE__, 'facetly_deactivated' );
 	register_uninstall_hook( __FILE__, 'facetly_deactivated' );
 
-	function facetly_activated(){
-		add_option('facetly_fields');
-		add_option('facetly_settings');
-		add_option('facetly_tplpage');
-		add_option('facetly_tplsearch');
-		add_option('facetly_tplfacet');
-		add_option('facetly_page_id');
-		$facetly_page = wp_insert_post( array(
-			'post_title' => 'Facetly Search',
-			'post_type' 	=> 'page',
-			'post_name'	 => 'finds',
-			'comment_status' => 'closed',
-			'ping_status' => 'closed',
-			'post_content' => '',
-			'post_status' => 'publish',
-			'post_author' => 1,
-			'menu_order' => 0
-		));
-		$facetly_page_data = get_page_by_path('finds');
-		$facetly_page_id = $facetly_page_data->ID;
-		update_option('facetly_page_id', $facetly_page_id);  
-	}
-	register_activation_hook( __FILE__, 'facetly_activated' );
 
 	function facetly_admin_actions(){
 		add_menu_page("Facetly Configuration", "Facetly Configuration", 'manage_options', "facetly-configuration", "facetly_admin");
