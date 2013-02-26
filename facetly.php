@@ -174,8 +174,20 @@
 				unset($filter['query']);
 
 				$common = get_option('facetly_settings');
-				$limit = $common['limit'];
+				if (!empty($common)) {
+					$limit = $common['limit'];
+			        $add_variable = $common['add_variable'];
+			    } else {
+			        $limit = '';
+			        $add_variable = '';
+			    }
+			    $facetly_page_id = get_option('facetly_page_id');
+				$facetly_page_data = get_page($facetly_page_id);
+				$facetly_post_name = $facetly_page_data->post_name;
+			    $base_url = '/'.$facetly_post_name. '?'. $add_variable;
+
 				$filter['limit'] = $limit;
+				$filter['baseurl'] = $base_url;
 				$var = $facetly->searchProduct($query, $filter, $searchtype);			
 			} catch (Exception $e) {
 				$var = new StdClass();

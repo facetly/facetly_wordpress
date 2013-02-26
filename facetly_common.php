@@ -10,21 +10,16 @@
 		        $consumer_key = $common['key'];
 		        $consumer_secret = $common['secret'];
 		        $server = $common['server'];
-		        $add_variable = $common['add_variable'];
 		    } else {
 		        $consumer_key = '';
 		        $consumer_secret = '';
 		        $server = '';
-		        $limit = '';
-		        $add_variable = '';
 		    }
 		    $facetly_page_id = get_option('facetly_page_id');
-				$facetly_page_data = get_page($facetly_page_id);
-				$facetly_post_name = $facetly_page_data->post_name;
-		    $base_url = '/'.$facetly_post_name. '?'. $add_variable;
+			$facetly_page_data = get_page($facetly_page_id);
+			$facetly_post_name = $facetly_page_data->post_name;
 		    $facetly->setConsumer($consumer_key, $consumer_secret); 
 		    $facetly->setServer($server);
-		    $facetly->setBaseUrl($base_url);
 		}
 		return $facetly;
 	}
