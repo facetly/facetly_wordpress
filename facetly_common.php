@@ -196,7 +196,7 @@
 		$item['created'] = $date->getTimestamp() *1000;
 		
 		$facetly = facetly_api_init();
-		$facetly->productUpdate($item);
+		$facetly->productInsert($item);
 
 	}
 	add_action('wp_insert_post', 'facetly_save_post');
