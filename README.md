@@ -36,7 +36,7 @@ The next step is set up Facetly Plugin for your store.
 
     <b>Please note: this search template (in facetly-search-template.php) is based on twenty ten default theme, if you use another theme, please make some adjustments such as id and class which match your template configuration.</b>
 
-3. If you want just to use this facetly, just activate facetly widget on your sidebar to display product facets.
+3. If you want just to use this facetly, just activate facetly widget on your sidebar to display product facets (depending your template).
 
 4. After completed step 1-3, go to Fields sub menu. This sub menu is used to map our defined field in http://www.facetly.com and field which defined in your Wordpress store. Please follow instruction in https://www.facetly.com/doc/field to set field mapping.
 
