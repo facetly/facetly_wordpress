@@ -7,7 +7,7 @@
 	Author URI: http://www.facetly.com
 	Plugin URI: http://www.facetly.com
 	*/
-	require_once("facetly_common.php");
+		require_once("facetly_common.php");
 	require_once("facetly_admin.php");
 	require_once("facetly_fields.php");
 	require_once("facetly_reindex.php");
@@ -60,16 +60,9 @@
 		delete_option('facetly_tplsearch');
 		delete_option('facetly_tplfacet');
 
-		$unzipsource = TEMPLATEPATH. "/searchform.php.zip";
-		$unzipdest = TEMPLATEPATH. "/";
-		$unzip1 = unzipfile($unzipsource, $unzipdest);
-		unlink($unzipsource);
-
 		if ( is_writable(TEMPLATEPATH) ) {
 			$facetly_searchtpl = TEMPLATEPATH. "/facetly-search-template.php";
 			unlink($facetly_searchtpl);
-			$facetly_searchtpl = TEMPLATEPATH. "/searchform.php";
-			unlink($facetly_searchtpl);	
 		}
 		$facetly_page_id = get_option('facetly_page_id');
 		wp_delete_post($facetly_page_id, true);
