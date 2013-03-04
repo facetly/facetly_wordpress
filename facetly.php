@@ -7,7 +7,8 @@
 	Author URI: http://www.facetly.com
 	Plugin URI: http://www.facetly.com
 	*/
-		require_once("facetly_common.php");
+
+	require_once("facetly_common.php");
 	require_once("facetly_admin.php");
 	require_once("facetly_fields.php");
 	require_once("facetly_reindex.php");
@@ -27,7 +28,7 @@
 			'post_name'	 => 'finds',
 			'comment_status' => 'closed',
 			'ping_status' => 'closed',
-			'post_content' => '',
+			'post_content' => '<div id="facetly_result">[facetly_search output=results]</div>',
 			'post_status' => 'publish',
 			'post_author' => 1,
 			'menu_order' => 0,
@@ -43,16 +44,14 @@
 	  	add_option('activated_plugin','facetly');
 	});
 
-	add_action('admin_init','load_plugin');
 	function load_plugin() {
 	    if(is_admin() && get_option('activated_plugin') == 'facetly') {
-	     facetly_activated();
-	     delete_option('activated_plugin');
+			facetly_activated();
+	     	delete_option('activated_plugin');
 	    }
 	}
+	add_action('admin_init','load_plugin');
 	
-	add_action('activate_facetly', 'facetly_activated');
-
 	function facetly_deactivated() {
 		delete_option('facetly_fields');
 		delete_option('facetly_settings');
@@ -60,9 +59,16 @@
 		delete_option('facetly_tplsearch');
 		delete_option('facetly_tplfacet');
 
+		$unzipsource = TEMPLATEPATH. "/searchform.php.zip";
+		$unzipdest = TEMPLATEPATH. "/";
+		$unzip1 = unzipfile($unzipsource, $unzipdest);
+		unlink($unzipsource);
+
 		if ( is_writable(TEMPLATEPATH) ) {
 			$facetly_searchtpl = TEMPLATEPATH. "/facetly-search-template.php";
 			unlink($facetly_searchtpl);
+			$facetly_searchtpl = TEMPLATEPATH. "/searchform.php";
+			unlink($facetly_searchtpl);	
 		}
 		$facetly_page_id = get_option('facetly_page_id');
 		wp_delete_post($facetly_page_id, true);
@@ -70,7 +76,6 @@
 
 	register_deactivation_hook( __FILE__, 'facetly_deactivated' );
 	register_uninstall_hook( __FILE__, 'facetly_deactivated' );
-
 
 	function facetly_admin_actions(){
 		add_menu_page("Facetly Configuration", "Facetly Configuration", 'manage_options', "facetly-configuration", "facetly_admin");
@@ -124,9 +129,14 @@
 			$server = $common['server'];
 			$limit = $common['limit'];
 			$add_variable = $common['add_variable'];
+			
 			$facetly_page_id = get_option('facetly_page_id');
 			$facetly_page_data = get_page($facetly_page_id);
 			$facetly_post_name = $facetly_page_data->post_name;
+			
+			$basename = basename( site_url() );
+		    $basename = str_replace($_SERVER['HTTP_HOST'], '', $basename);
+		    $baseurl = (!empty($basename)) ? '/'. $basename. '/' : '/' ;    
 
 			echo '
 			<script type="text/javascript">
@@ -134,10 +144,9 @@
 				    "key" : "'. $key. '",
 				    "server" : "'. $server. '",
 				    "file" : "'. $facetly_post_name. '?'. $add_variable. '",
-				    "baseurl" : "'. site_url(). '/",
+				    "baseurl" : "'. $baseurl. '",
 				    "limit" : "'. $limit. '",
 				}
-				
 			</script>';
 		}
 	}
@@ -177,10 +186,17 @@
 			    $facetly_page_id = get_option('facetly_page_id');
 				$facetly_page_data = get_page($facetly_page_id);
 				$facetly_post_name = $facetly_page_data->post_name;
-			    $base_url = '/'.$facetly_post_name. '?'. $add_variable;
+			    $baseurl = $facetly_post_name. '?'. $add_variable;
+				$basename = basename( site_url() );
+			    $basename = str_replace($_SERVER['HTTP_HOST'], '', $basename);
+		        if (!empty($basename)) {
+		            $baseurl = "/". $basename. "/". $baseurl;
+		        } else {
+		            $baseurl = "/". $baseurl;
+		        }
 
 				$filter['limit'] = $limit;
-				$filter['baseurl'] = $base_url;
+				$filter['baseurl'] = $baseurl;
 				$var = $facetly->searchProduct($query, $filter, $searchtype);			
 			} catch (Exception $e) {
 				$var = new StdClass();
@@ -202,6 +218,7 @@
 			exit();
 		}
 	}
+
 	function facetly_custom_template() {
 		$facetly_page_id = get_option('facetly_page_id');
 		$facetly_page_data = get_page($facetly_page_id);
@@ -218,9 +235,9 @@
 		), $atts ) );
 		$search = facetly_search();
 		if ($output == 'results') {
-			$return = $search->results;
+			$return = '<div id="facetly_result">'. $search->results. '</div>';
 		} else if ($output == 'facets') {
-			$return = $search->facets;
+			$return = '<div id="facetly_facet">'. $search->facets. '</div>';
 		}
 		return $return;
 	} 
@@ -265,3 +282,35 @@
 			return $progress_bar;
 	}
 	add_shortcode( 'facetly_progress', 'facetly_progressbar' );
+
+	function facetly_searchform_shortcode( $atts ) {
+		$query = $_GET['query'];
+		$common = get_option('facetly_settings');
+        $limit = $common['limit'];
+
+        $facetly_page_id = get_option('facetly_page_id');
+		$facetly_page_data = get_page($facetly_page_id);
+		$facetly_post_name = $facetly_page_data->post_name;
+
+		$baseurl = basename( site_url() );
+        $baseurl = str_replace($_SERVER['HTTP_HOST'], '', $baseurl);
+        if (!empty($baseurl)) {
+            $action = "/". $baseurl. "/". $facetly_post_name;
+        } else {
+            $action = "/". $facetly_post_name;
+        }
+
+        $isfind = strpos($_SERVER['REQUEST_URI'], $action);
+        if ( $isfind !== false && $isfind == 0 ) {
+          $action = $facetly_post_name;
+        }
+
+	 	$searchform = '<form method="get" id="searchform"  facetly_form="on" action="'. $action. '">  
+            <label for="s"></label>  
+            <input type="text" name="query" id="s" facetly="on" value="'. $query. '"/>  
+            <input type="submit" id="searchsubmit" value="Search" />
+            <input type="hidden" name="limit" id="edit-limit" value="'. $limit. '">
+        </form>';
+		return $searchform;
+	} 
+	add_shortcode( 'facetly_searchform', 'facetly_searchform_shortcode' );

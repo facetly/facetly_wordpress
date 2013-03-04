@@ -16,36 +16,14 @@
             $name = $instance['name'];
             $show_info = isset( $instance['show_info'] ) ? $instance['show_info'] : false;
 
-            $common = get_option('facetly_settings');
-            $key = $common['key'];
-            $secret = $common['secret'];
-            $server = $common['server'];
-            $limit = $common['limit'];
-
-            $baseurl = basename( site_url() );
-            $baseurl = str_replace($_SERVER['HTTP_HOST'], '', $baseurl);
-            if (!empty($baseurl)) {
-                $action = "/". $baseurl. "/finds";
-            } else {
-                $action = "/finds";
-            }
-
-            $isfind = strpos($_SERVER['REQUEST_URI'], $action);
-            if ( $isfind !== false && $isfind == 0 ) {
-              $action = "finds";
-            }
-            $searchform = '<form method="get" id="searchform"  facetly_form="on" action="'. $action. '">  
-                <label for="s"></label>  
-                <input type="text" name="query" id="s" facetly="on" value="'. $query. '"/>  
-                <input type="submit" id="searchsubmit" value="Search" />
-                <input type="hidden" name="limit" id="edit-limit" value="'. $limit. '">
-            </form>';
+            $searchform = do_shortcode("[facetly_searchform]");
             echo $searchform;
             if (!empty($title))
             echo $before_title . $title . $after_title;
 
-            $search = facetly_search();
-            echo $search->facets;
+            $search = do_shortcode("[facetly_search output=facets]");
+            echo $search;
+
         }
 
         public function update( $new_instance, $old_instance ) {

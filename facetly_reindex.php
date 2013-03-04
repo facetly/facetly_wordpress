@@ -104,7 +104,7 @@
 				if (!empty($fields)) {
 				?>
 					<div class="wrap">
-						<?php    echo "<h2>" . __( 'Facetly Configuration' ) . "</h2>"; ?>  
+						<?php echo "<h2>" . __( 'Facetly Configuration' ) . "</h2>"; ?>  
 						<?php echo "<h4>" . __( 'Facetly Reindex' ) . "</h4>"; ?>  
 						<form name="facetly_settings" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['PHP_SELF']). "?". $url_query; ?>">  	
 							<p class="submit">  

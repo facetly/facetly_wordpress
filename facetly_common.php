@@ -47,13 +47,11 @@
 			$ancestors = $post->ancestors[0];
 			$post_type = get_post_type($ancestors);
 		}
-
 		if ($post_type == 'wpsc-product') {
 			$category = 'wpsc_product_category'; 
 		} else if ($post_type == 'post') {
 			$category = 'category';
 		}
-
 		$terms = wp_get_object_terms( $post_id, $category, array('orderby' => 'parent', 'order' => 'DESC', 'fields' => 'all') );
 
 		foreach ($terms as $key => $value) {
@@ -192,7 +190,6 @@
 		
 		$facetly = facetly_api_init();
 		$facetly->productInsert($item);
-
 	}
 	add_action('wp_insert_post', 'facetly_save_post');
 

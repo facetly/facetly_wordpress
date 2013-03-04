@@ -12,18 +12,26 @@
             $tplfacet = stripslashes($_POST['tplfacet']);  
             try {
                 $response = $facetly->templateUpdate($tplsearch,$tplfacet);
-            } catch (Exception $e) {
-                $error = $e->getMessage();
-            }
-
-
-            if ( !empty($error) ) {
-                echo '<div class="error"><p><strong>'. $error. '</strong></p></div>';
-            }
-            if ( !empty($response) ) {
-                echo '<div class="updated"><p><strong>'. $response. '</strong></p></div>';
+                echo '<div class="updated"><p><strong>Template Saved</strong></p></div>';
                 update_option('facetly_tplsearch', $tplsearch);
                 update_option('facetly_tplfacet', $tplfacet);
+            } catch (Exception $e) {
+                $error = json_decode($e->getMessage());
+                if ($error->status == 'error') {
+                    $err_message = (is_string($error->message)) ? $error->message : '' ;
+                    $tplsearch_err = $error->message->tplsearch;
+                    $tplfacet_err = $error->message->tplfacet;
+
+                    if (!empty($err_message)) {
+                        echo '<div class="error"><p><strong>'. $err_message. '</strong></p></div>';
+                    } else if (!empty($tplsearch_err) && !empty($tplfacet_err)) {
+                        echo '<div class="error"><p><strong>'. $tplsearch_err. '<br/>'. $tplfacet_err. '</strong></p></div>';
+                    } else if (!empty($tplsearch_err)) {
+                        echo '<div class="error"><p><strong>'. $tplsearch_err. '</strong></p></div>';
+                    } else if (!empty($tplfacet_err)) {
+                        echo '<div class="error"><p><strong>'. $tplfacet_err. '</strong></p></div>';
+                    } 
+                }
             }
         } else {
             $tplsearch = get_option('facetly_tplsearch');
