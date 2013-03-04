@@ -99,7 +99,7 @@ class facetly_api
     
     function searchProduct($query, $filter, $searchtype)
     {
-        $baseurl = $this->baseurl;
+        $baseurl = (!empty($this->baseurl)) ? $this->baseurl : $filter['baseurl'];
         $key     = $this->key;
         $data    = array(
             "key" => $key,
