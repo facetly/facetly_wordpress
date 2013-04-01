@@ -102,12 +102,14 @@
 		wp_enqueue_script('facetly-search-jquery-autocomplete-js');
 		wp_register_script('facetly-search-facetly-js', plugins_url('js/facetly.js', __FILE__));
 		wp_enqueue_script('facetly-search-facetly-js');
+		wp_register_script('facetly-jquery-ui-custom-js', plugins_url('js/jquery-ui.custom.js', __FILE__));
+		wp_enqueue_script('facetly-jquery-ui-custom-js');
 	};
 	add_action ( 'wp_head', 'facetly_js');
 
 	function facetly_search_title(){
 	    global $post;
-	    if ($post->post_title == 'Facetly Search') {
+	    if (isset($post->post_title) && $post->post_title == 'Facetly Search') {
 	    	if (!empty($_GET['query'])) {
 				$query = stripslashes($_GET['query']);
 				$query = htmlentities($query);
@@ -163,7 +165,7 @@
 		if (empty($var)) {
 			try {
 				$facetly = facetly_api_init();
-				$searchtype = "html";
+				$searchtype = "template";
 				if (!empty($_GET['query'])) {
 					$query = $_GET['query'];
 					$query = stripslashes($_GET['query']);
@@ -284,7 +286,7 @@
 	add_shortcode( 'facetly_progress', 'facetly_progressbar' );
 
 	function facetly_searchform_shortcode( $atts ) {
-		$query = $_GET['query'];
+		$query = (isset($_GET['query'])) ? $_GET['query'] : '';
 		$common = get_option('facetly_settings');
         $limit = $common['limit'];
 

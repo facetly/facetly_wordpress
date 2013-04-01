@@ -7,7 +7,7 @@
   height:150px;
 }
 
-#facetly_result table {
+/*#facetly_result table {
   width:100%;
 }
 #facetly_result table, tr, td {
@@ -16,7 +16,7 @@
   padding-top: 5px;
   margin-left: 1px;
 }
-
+*/
 table a {text-decoration: none; color: #06C;}
 table a:hover {text-decoration: underline;}
 
@@ -34,10 +34,10 @@ table a:hover {text-decoration: underline;}
   padding: 5px;
 }
 
-ul.facets {
+#facetly_facet ul {
   list-style-type: none;
 }
-ul.facets li,ul{
+#facetly_facet li,ul{
   list-style-type: none;
 }
 

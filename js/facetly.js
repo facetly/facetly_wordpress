@@ -1,7 +1,7 @@
 jQuery(document).ready(function() {
     var baseurlfile=facetly.baseurl+""+facetly.file;
     var isfacetlypage = false;
-  
+
   if (jQuery('#facetly_facet').length && jQuery('#facetly_result').length) {
     isfacetlypage = true;
   }
@@ -76,6 +76,7 @@ jQuery(document).ready(function() {
           jQuery('#facetly_facet').show();
           
         } 
+        jQuery('#loading').removeClass("loading");
         jQuery('#facetly_result').fadeTo("fast",1.0);
         //jQuery('html, body').animate({ scrollTop: jQuery('#facetly_result').offset().top }, "fast");
         if (fade) { 
@@ -86,7 +87,8 @@ jQuery(document).ready(function() {
     
     var facetly_loading = function(data) {
       //jQuery('#facetly_result').html('<div class="facetly_loading">Loading Search Result .....</div>');
-      jQuery('#facetly_result').fadeTo("fast",0.5);
+      jQuery('#loading').addClass("loading");
+      jQuery('#facetly_result').fadeTo("fast",0.6);
     }     
 
     jQuery('#facetly_result .pager a, #facetly_facet a').live("click", function() {
@@ -117,7 +119,8 @@ jQuery(document).ready(function() {
             init = false;
             jQuery(document).trigger("facetly_loaded");
         
-        } else {   
+        } else {
+           //console.log(event)           
                     
            params = {};
            // fix bug [], replace %5B AND %5D
@@ -126,6 +129,7 @@ jQuery(document).ready(function() {
              var newkey = decodeURIComponent(key);
              if (typeof event.parameters[key] == "string") {              
               params[newkey] = decodeURIComponent(event.parameters[key]).replace(/\+/g, ' ');
+
              } else {
               var values = [];
               var value_temp = event.parameters[key];
@@ -135,11 +139,14 @@ jQuery(document).ready(function() {
               params[newkey] = values;
              }
            }
+             //console.log(params);
            
            facetly_server = facetly.server;
            params["key"] = facetly.key;
            params["baseurl"] = baseurlfile;
-           params["searchtype"] = "html";
+           params["render"] = "template";
+           params["limit"] = facetly.limit;
+           
            
            var fade = true;   
            if (jQuery('#facetly_result').attr('attr-type') == 'form') {
@@ -160,4 +167,28 @@ jQuery(document).ready(function() {
         }
     });
     }
+/*    
+//custom javascript. Add by andreas
+    jQuery(document).bind("facetly_loaded",function(){
+/*      $(".item-list.facet-group-14").dynatree({
+        checkbox: true,
+        // Override class name for checkbox icon:
+        //classNames: {checkbox: "dynatree-radio"},
+
+        });*/
+       /* $(".item-list.facet-group-3, .item-list.facet-group-14").dynatree({
+        checkbox: true,
+        // Override class name for checkbox icon:
+        classNames: {checkbox: "dynatree-radio"},
+        });
+    });
+    $(".dynatree-checkbox").live("click",function(){
+        //alert("test");
+        var classname = $(this).parent().find('a').attr('href');
+        //alert(classname);
+
+        $("a[href='"+classname+"']").trigger("click");    
+    });*/
+
+  
 });

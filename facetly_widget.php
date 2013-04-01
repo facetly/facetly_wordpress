@@ -13,6 +13,7 @@
             extract($args);
 
             $title = apply_filters('widget_title', $instance['title'] );
+            $name = (isset($instance['name'])) ? $instance['name'] : '';
             $show_info = isset( $instance['show_info'] ) ? $instance['show_info'] : false;
 
             $searchform = do_shortcode("[facetly_searchform]");
